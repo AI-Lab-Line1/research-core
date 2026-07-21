@@ -31,6 +31,13 @@ jobs:
         run: |
           pip install mkdocs-material
 
+      - name: Ensure notes directory exists
+        run: |
+          if [ ! -d "./notes" ]; then
+            mkdir -p ./notes
+            echo "# Notes" > ./notes/index.md
+          fi
+
       - name: Build and Deploy Docs
         run: |
           mkdocs gh-deploy --force
