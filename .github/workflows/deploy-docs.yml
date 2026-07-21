@@ -1,0 +1,36 @@
+name: Deploy Notes to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'notes/**'          # 只有当 notes/ 目录下的文件修改时才触发编译
+      - 'mkdocs.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install MkDocs Material
+        run: |
+          pip install mkdocs-material
+
+      - name: Build and Deploy Docs
+        run: |
+          mkdocs gh-deploy --force
