@@ -1,0 +1,38 @@
+site_name: AI Lab 科研实验日志与文档
+site_url: https://ai-lab-line1.github.io/research-core/
+
+theme:
+  name: material
+  language: zh
+  palette:
+    # 支持浅色/深色模式切换
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到夜间模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到日间模式
+  features:
+    - navigation.tabs          # 顶部大标签页
+    - navigation.sections      # 侧边栏折叠
+    - search.suggest           # 搜索自动补全
+    - search.highlight         # 搜索结果高亮
+
+# 关键设置：指定 Markdown 笔记存储在 notes 目录下
+docs_dir: 'notes'
+
+markdown_extensions:
+  - pymdownx.highlight:        # 代码高亮
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.arithmatex:       # LaTeX 学术公式支持
+      generic: true
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML
