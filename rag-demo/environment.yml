@@ -1,0 +1,25 @@
+name: blue
+
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - nodejs
+  - numpy
+  - pandas
+  - scikit-learn
+  - pip:
+      - fastapi
+      - "uvicorn[standard]"
+      - pydantic
+      - pydantic-settings
+      - python-dotenv
+      - markdown
+      - beautifulsoup4
+      - lxml
+      - loguru
+      - rank-bm25
+      - jieba
+      - orjson
+      - openai

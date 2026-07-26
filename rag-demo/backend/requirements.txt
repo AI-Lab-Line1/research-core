@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pydantic
+numpy
+scipy
+scikit-learn
+jieba
+rank-bm25
+openai
+python-dotenv
