@@ -1,0 +1,3726 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ai-lab-line1.github.io/research-core/Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">
+      
+      
+        <link rel="prev" href="../RAG%E7%AC%94%E8%AE%B0/">
+      
+      
+        <link rel="next" href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Towards Agentic RAG with Deep Reasoning：论文精读 - AI Lab 科研实验日志与文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#towards-agentic-rag-with-deep-reasoning" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-header__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Lab 科研实验日志与文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Towards Agentic RAG with Deep Reasoning：论文精读
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI Lab 实验室科研文档与实验日志
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG（Retrieval-Augmented Generation）笔记
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Towards Agentic RAG with Deep Reasoning：论文精读
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  阅读报告：Towards Agentic RAG with Deep Reasoning
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏（Knowledge Distillation）笔记
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-nav__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Lab 科研实验日志与文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Lab 实验室科研文档与实验日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG（Retrieval-Augmented Generation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Towards Agentic RAG with Deep Reasoning：论文精读
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--mature"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Towards Agentic RAG with Deep Reasoning：论文精读
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--mature"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 论文信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 一句话总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心结论速览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 问题背景：为什么 RAG 与推理必须结合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 问题背景：为什么 RAG 与推理必须结合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 LLM 的两类根本限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 传统 RAG 的三阶段流水线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-rtr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 静态 RTR 的三类局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 论文的统一分类框架
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 论文的统一分类框架">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 三种范式的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 最重要的分类边界
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-reasoning-enhanced-rag-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Reasoning-Enhanced RAG：推理增强 RAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Reasoning-Enhanced RAG：推理增强 RAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-retrieval-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 检索优化（Retrieval Optimization）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 检索优化（Retrieval Optimization）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.1 推理感知的查询改写
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.2 检索策略与规划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.3 检索模型增强
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-integration-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 整合增强（Integration Enhancement）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 整合增强（Integration Enhancement）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.1 相关性评估与过滤
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#622" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.2 信息综合与融合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-generation-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 生成增强（Generation Enhancement）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 生成增强（Generation Enhancement）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.1 上下文感知的综合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.2 有依据的生成控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 本范式的总体评价
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-rag-enhanced-reasoningrag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. RAG-Enhanced Reasoning：RAG 增强推理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. RAG-Enhanced Reasoning：RAG 增强推理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 外部知识检索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 外部知识检索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#711" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.1 知识库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#712-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.2 Web 检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#713" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.3 工具使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 上下文内检索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 上下文内检索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#721" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.1 先前经验
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#722" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.2 示例或训练数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 本范式的总体评价
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-synergized-rag-reasoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Synergized RAG-Reasoning：检索与推理协同
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Synergized RAG-Reasoning：检索与推理协同">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 核心闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 协同式系统维度一：推理工作流
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 协同式系统维度一：推理工作流">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-chain-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 链式（Chain-based）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-tree-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 树式（Tree-based）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 树式（Tree-based）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#921-tree-of-thoughttot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.1 Tree-of-Thought（ToT）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#922-monte-carlo-tree-searchmcts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.2 Monte Carlo Tree Search（MCTS）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-graph-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 图式（Graph-based）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 图式（Graph-based）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-walk-on-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.1 Walk-on-Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-think-on-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.2 Think-on-Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 三类工作流的本质差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 协同式系统维度二：智能体编排
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 协同式系统维度二：智能体编排">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 单智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 单智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1011-prompting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1.1 Prompting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1012-supervised-fine-tuningsft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1.2 Supervised Fine-Tuning（SFT）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1013-reinforcement-learningrl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1.3 Reinforcement Learning（RL）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 多智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 多智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1021" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.1 去中心化架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1022" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.2 中心化/分层架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 工作流与编排是正交维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-deep-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Deep Research：协同式范式的典型实现
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Deep Research：协同式范式的典型实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 单智能体与多智能体实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 检索器的演进
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 论文隐含的成熟度判断
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 基准与数据集
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. 基准与数据集">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 规模与覆盖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 不同基准的“检索难点 × 推理难点”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 当前评测的系统性缺口
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 未来研究方向
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. 未来研究方向">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 推理效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 检索效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 人机协同
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-agentic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 Agentic 结构与能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#135" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.5 多模态检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#136" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.6 检索可信度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. 论文贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. 局限与批判性评价
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15. 局限与批判性评价">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#151" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1 作者自述的局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#152" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2 本文分类的优点与模糊处
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#153" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.3 缺乏统一的因果比较
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#154" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.4 “深推理”不等于“可靠推理”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#155" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.5 安全、隐私和治理讨论仍偏薄
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#156" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.6 评测仍未覆盖真实研究质量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. 面向系统设计的综合启示（基于论文的进一步归纳）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="16. 面向系统设计的综合启示（基于论文的进一步归纳）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.1 最小可用闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#162" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.2 架构选择建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#163" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.3 应重点记录的运行轨迹
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.4 推荐的评测维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. 关键术语
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. 阅读结论
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19. 原文定位索引
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阅读报告：Towards Agentic RAG with Deep Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏（Knowledge Distillation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 论文信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 一句话总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心结论速览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 问题背景：为什么 RAG 与推理必须结合
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 问题背景：为什么 RAG 与推理必须结合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 LLM 的两类根本限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 传统 RAG 的三阶段流水线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-rtr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 静态 RTR 的三类局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 论文的统一分类框架
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 论文的统一分类框架">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 三种范式的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 最重要的分类边界
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-reasoning-enhanced-rag-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Reasoning-Enhanced RAG：推理增强 RAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Reasoning-Enhanced RAG：推理增强 RAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-retrieval-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 检索优化（Retrieval Optimization）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 检索优化（Retrieval Optimization）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.1 推理感知的查询改写
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.2 检索策略与规划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1.3 检索模型增强
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-integration-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 整合增强（Integration Enhancement）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 整合增强（Integration Enhancement）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.1 相关性评估与过滤
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#622" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2.2 信息综合与融合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-generation-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 生成增强（Generation Enhancement）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 生成增强（Generation Enhancement）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.1 上下文感知的综合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.2 有依据的生成控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 本范式的总体评价
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-rag-enhanced-reasoningrag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. RAG-Enhanced Reasoning：RAG 增强推理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. RAG-Enhanced Reasoning：RAG 增强推理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 外部知识检索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 外部知识检索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#711" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.1 知识库
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#712-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.2 Web 检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#713" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1.3 工具使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 上下文内检索
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 上下文内检索">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#721" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.1 先前经验
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#722" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.2 示例或训练数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 本范式的总体评价
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-synergized-rag-reasoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Synergized RAG-Reasoning：检索与推理协同
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Synergized RAG-Reasoning：检索与推理协同">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 核心闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 协同式系统维度一：推理工作流
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 协同式系统维度一：推理工作流">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-chain-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 链式（Chain-based）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-tree-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 树式（Tree-based）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 树式（Tree-based）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#921-tree-of-thoughttot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.1 Tree-of-Thought（ToT）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#922-monte-carlo-tree-searchmcts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2.2 Monte Carlo Tree Search（MCTS）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-graph-based" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 图式（Graph-based）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 图式（Graph-based）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-walk-on-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.1 Walk-on-Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-think-on-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.2 Think-on-Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 三类工作流的本质差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 协同式系统维度二：智能体编排
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 协同式系统维度二：智能体编排">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 单智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 单智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1011-prompting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1.1 Prompting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1012-supervised-fine-tuningsft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1.2 Supervised Fine-Tuning（SFT）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1013-reinforcement-learningrl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1.3 Reinforcement Learning（RL）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 多智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 多智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1021" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.1 去中心化架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1022" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.2 中心化/分层架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 工作流与编排是正交维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-deep-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Deep Research：协同式范式的典型实现
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Deep Research：协同式范式的典型实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 单智能体与多智能体实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 检索器的演进
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 论文隐含的成熟度判断
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 基准与数据集
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. 基准与数据集">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 规模与覆盖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 不同基准的“检索难点 × 推理难点”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 当前评测的系统性缺口
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 未来研究方向
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. 未来研究方向">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 推理效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 检索效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 人机协同
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-agentic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 Agentic 结构与能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#135" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.5 多模态检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#136" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.6 检索可信度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. 论文贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. 局限与批判性评价
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15. 局限与批判性评价">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#151" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.1 作者自述的局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#152" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.2 本文分类的优点与模糊处
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#153" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.3 缺乏统一的因果比较
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#154" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.4 “深推理”不等于“可靠推理”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#155" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.5 安全、隐私和治理讨论仍偏薄
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#156" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15.6 评测仍未覆盖真实研究质量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. 面向系统设计的综合启示（基于论文的进一步归纳）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="16. 面向系统设计的综合启示（基于论文的进一步归纳）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.1 最小可用闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#162" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.2 架构选择建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#163" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.3 应重点记录的运行轨迹
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16.4 推荐的评测维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. 关键术语
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. 阅读结论
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19. 原文定位索引
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="towards-agentic-rag-with-deep-reasoning">Towards Agentic RAG with Deep Reasoning：论文精读</h1>
+<blockquote>
+<p>原文：[[2507.09477v2.pdf]]<br />
+配套导图：[[RAG-Reasoning综述—思维导图]]</p>
+</blockquote>
+<h2 id="1">1. 论文信息</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td><em>Towards Agentic RAG with Deep Reasoning: A Survey of RAG-Reasoning Systems in LLMs</em></td>
+</tr>
+<tr>
+<td>类型</td>
+<td>综述论文</td>
+</tr>
+<tr>
+<td>版本</td>
+<td>arXiv:2507.09477v2，2025-07-16</td>
+</tr>
+<tr>
+<td>作者</td>
+<td>Yangning Li、Weizhi Zhang、Yuyao Yang 等</td>
+</tr>
+<tr>
+<td>机构</td>
+<td>清华大学、UIC、东京大学、北京大学、UIUC、UCLA、HKUST</td>
+</tr>
+<tr>
+<td>篇幅</td>
+<td>26 页，综合 200 余篇研究</td>
+</tr>
+<tr>
+<td>代码/资料集</td>
+<td><a href="https://github.com/DavidZWZ/Awesome-RAG-Reasoning">Awesome-RAG-Reasoning</a></td>
+</tr>
+<tr>
+<td>核心主题</td>
+<td>从单向的“推理增强 RAG”与“RAG 增强推理”，走向检索和推理相互反馈的 Agentic RAG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2">2. 一句话总结</h2>
+<p>本文用统一的 <strong>Reasoning–Retrieval（推理—检索）视角</strong> 重整 RAG 研究：真正面向复杂任务的系统不应只执行一次“先检索、后推理”，而应让推理持续暴露知识缺口、指导下一次检索，再由新证据修正推理，最终形成可规划、可验证、可停止的智能体式闭环。</p>
+<h2 id="3">3. 核心结论速览</h2>
+<ol>
+<li>LLM 的两类根本缺陷相互耦合：<strong>知识不足会阻断推理，推理错误又会妨碍知识利用</strong>。</li>
+<li>传统 Retrieval-Then-Reasoning（RTR）只做局部、单向增强，存在检索充分性、推理深度和系统适应性三类瓶颈。</li>
+<li>论文把现有研究划分为三个演进阶段：</li>
+<li><strong>Reasoning → RAG</strong>：用推理优化检索、整合与生成。</li>
+<li><strong>RAG → Reasoning</strong>：用外部知识或上下文知识补齐推理前提。</li>
+<li><strong>RAG ⇔ Reasoning</strong>：推理和检索多轮交替、相互修正。</li>
+<li>协同式系统可从两个正交维度理解：</li>
+<li><strong>推理工作流</strong>：链式、树式、图式。</li>
+<li><strong>智能体编排</strong>：单智能体、去中心化多智能体、中心化/分层多智能体。</li>
+<li>Agentic Deep Research 是协同式 RAG-Reasoning 的代表落地：自主拆题、多步搜索、证据整合、反思验证并生成带来源的长答案。</li>
+<li>当前最大缺口不只是准确率，还包括推理/检索效率、多模态、来源可信度、全过程评测和人机协同。</li>
+</ol>
+<h2 id="4-rag">4. 问题背景：为什么 RAG 与推理必须结合</h2>
+<h3 id="41-llm">4.1 LLM 的两类根本限制</h3>
+<ul>
+<li><strong>知识幻觉</strong>：参数知识是静态的，存在知识截止、遗漏和事实失真。</li>
+<li><strong>复杂推理不足</strong>：真实任务往往需要分解、跨文档连接、假设检验和多步决策。</li>
+</ul>
+<p>两者不是彼此独立的问题：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>缺少知识 → 推理前提不完整 → 推理链断裂或凭空补全
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>推理能力弱 → 查询设计错误/证据误用 → 即便检索正确也得出错误答案
+</code></pre></div>
+<h3 id="42-rag">4.2 传统 RAG 的三阶段流水线</h3>
+<p>论文将 RAG 抽象为三个连续阶段（p. 2）：</p>
+<ol>
+<li><strong>Retrieval（检索）</strong>：从外部知识库取回候选内容。</li>
+<li><strong>Integration（整合）</strong>：去重、冲突消解、重排和过滤。</li>
+<li><strong>Generation（生成）</strong>：在整理后的上下文上推理并输出答案。</li>
+</ol>
+<p>CoT 等方法则通过“逐步思考”加强模型的多步推理。本文关注的是：推理能力如何进入 RAG 的三个阶段，以及检索如何反过来进入推理过程。</p>
+<h3 id="43-rtr">4.3 静态 RTR 的三类局限</h3>
+<table>
+<thead>
+<tr>
+<th>局限</th>
+<th>具体表现</th>
+<th>根因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>检索充分性与准确性不足</td>
+<td>预先取回的材料可能与推理中后来暴露的知识需求不一致</td>
+<td>检索发生在真正的推理需求显现之前</td>
+</tr>
+<tr>
+<td>推理深度受限</td>
+<td>错误、噪声或互相冲突的材料会干扰模型原有推理</td>
+<td>模型缺少逐步验证、回退和补充证据机制</td>
+</tr>
+<tr>
+<td>系统适应性不足</td>
+<td>无法根据中间结论动态改查、续查或停止</td>
+<td>固定的“检索一次 → 推理一次”流程没有反馈回路</td>
+</tr>
+</tbody>
+</table>
+<p>因此，开放域问答、科学发现和深度研究等任务需要从静态 RTR 转向动态闭环。</p>
+<h2 id="5">5. 论文的统一分类框架</h2>
+<h3 id="51">5.1 三种范式的对比</h3>
+<table>
+<thead>
+<tr>
+<th>范式</th>
+<th>信息流</th>
+<th>主要目标</th>
+<th>典型动作</th>
+<th>关键缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reasoning-Enhanced RAG</td>
+<td>Reasoning → RAG</td>
+<td>让检索结果更准、证据整合更合理、输出更忠实</td>
+<td>查询分解、检索规划、证据过滤、事实核验</td>
+<td>推理仍主要作用于固定知识；无法保证后续不出现新知识缺口</td>
+</tr>
+<tr>
+<td>RAG-Enhanced Reasoning</td>
+<td>RAG → Reasoning</td>
+<td>用知识、工具、经验或示例补足推理</td>
+<td>查知识库/网页、调用工具、检索记忆或示例</td>
+<td>无关或错误知识可能反过来破坏推理</td>
+</tr>
+<tr>
+<td>Synergized RAG-Reasoning</td>
+<td>RAG ⇔ Reasoning</td>
+<td>在推理和检索之间形成动态互惠</td>
+<td>边想边搜、反思、验证、分支探索、智能体协作</td>
+<td>延迟、成本、协调和可控性显著增加</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52">5.2 最重要的分类边界</h3>
+<p>论文脚注明确给出一个操作性判据（p. 3）：</p>
+<blockquote>
+<p>如果推理只是为了更好地利用<strong>已经固定的检索结果</strong>，属于第 3 节的单向增强；如果推理会<strong>动态触发新的检索</strong>，则属于第 5 节的协同式系统。</p>
+</blockquote>
+<p>这说明分类依据是系统中的<strong>控制流和反馈关系</strong>，而不是某个方法的名称。一个方法也可能同时包含过滤、生成控制和动态检索等多个组件，所以分类并非严格互斥。</p>
+<hr />
+<h2 id="6-reasoning-enhanced-rag-rag">6. Reasoning-Enhanced RAG：推理增强 RAG</h2>
+<p>目标是在传统 RAG 的 Retrieval、Integration、Generation 三个阶段分别注入推理能力，从而提高相关性、逻辑一致性和事实忠实度（pp. 2–4）。</p>
+<h3 id="61-retrieval-optimization">6.1 检索优化（Retrieval Optimization）</h3>
+<h4 id="611">6.1.1 推理感知的查询改写</h4>
+<p>目的：把原始问题变成更容易检索到“推理所需证据”的查询。</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>机制</th>
+<th>作用</th>
+<th>代表方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查询分解</td>
+<td>把复杂问题拆为简单子问题</td>
+<td>降低一次检索承担的组合推理难度</td>
+<td>Collab-RAG</td>
+</tr>
+<tr>
+<td>查询重写</td>
+<td>消歧、补全约束、改成更清晰的表述</td>
+<td>改善召回内容与生成器真实需求的对齐</td>
+<td>DynQR；部分方法以 RL 信号训练重写器</td>
+</tr>
+<tr>
+<td>查询扩展</td>
+<td>将 CoT 中产生的实体、关系和中间假设加入查询</td>
+<td>提升多跳任务的中间知识召回</td>
+<td>DeepRetrieval、CoT query expansion</td>
+</tr>
+</tbody>
+</table>
+<p>关键洞察：检索查询不应只复述用户问题，而应表达“为了完成下一步推理，现在缺哪条证据”。</p>
+<h4 id="612">6.1.2 检索策略与规划</h4>
+<p>分为两类：</p>
+<ul>
+<li><strong>预先规划（advance planning）</strong>：执行前生成完整检索蓝图。PAR-RAG 用 CoT 规划多步查询，以避免局部最优；LPKG 通过知识图谱微调，让模型内化关系结构。</li>
+<li><strong>自适应检索决策</strong>：每一步预测“要不要检索、检索什么、采用何种策略”。FIND、Adaptive-RAG 依据问题复杂度选择方案，减少不必要调用；进一步可加入实体流行度、问题类型等特征。</li>
+</ul>
+<p>两类方案的权衡：全局规划更连贯，但计划可能在新证据出现后过时；逐步决策更灵活，但容易短视。</p>
+<h4 id="613">6.1.3 检索模型增强</h4>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>做法</th>
+<th>代表方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>结构化知识增强</td>
+<td>利用图结构或符号规则，让检索器具备隐式多跳能力和逻辑约束</td>
+<td>GNN-RAG 用 GNN 聚合知识图谱邻居；RuleRAG 拼接符号规则</td>
+</tr>
+<tr>
+<td>显式推理增强</td>
+<td>将 CoT 或中间推理状态与查询一起编码</td>
+<td>Ji et al. 将 CoT 融入查询，提高多跳 QA 的中间知识召回</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-integration-enhancement">6.2 整合增强（Integration Enhancement）</h3>
+<h4 id="621">6.2.1 相关性评估与过滤</h4>
+<ul>
+<li><strong>SEER</strong>：使用评估专家，从忠实性、有用性和简洁性三个维度筛选证据。</li>
+<li><strong>M-RAG-R / Yoran et al.</strong>：用 NLI 模型过滤无法蕴含答案的段落，并在相关/无关混合上下文上微调 LLM，使其能忽略残余噪声。</li>
+</ul>
+<p>这里的“相关”不只是词面相似，而是证据能否支持当前推理步骤。</p>
+<h4 id="622">6.2.2 信息综合与融合</h4>
+<p>检索到相关片段后，还要把分散、异构甚至冲突的信息组织成可推理的证据集。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>核心机制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BeamAggR</td>
+<td>枚举子问题答案组合，再用概率推理聚合多源证据</td>
+</tr>
+<tr>
+<td>DualRAG</td>
+<td>推理增强查询 + 渐进式知识聚合，把证据整理成不断演化的提纲</td>
+</tr>
+<tr>
+<td>CRP-RAG</td>
+<td>构建推理图，在每个节点检索、评估、聚合，并选择“知识已充分”的路径</td>
+</tr>
+</tbody>
+</table>
+<p>融合阶段的本质是从“文档列表”构造“可支持结论的证据结构”。</p>
+<h3 id="63-generation-enhancement">6.3 生成增强（Generation Enhancement）</h3>
+<h4 id="631">6.3.1 上下文感知的综合</h4>
+<ul>
+<li><strong>选择性使用上下文</strong>：按任务相关性裁剪或重加权材料。Open-RAG 用稀疏专家混合动态选择知识模块；RARE 在提示中注入领域知识，鼓励依赖外部证据而非参数记忆。</li>
+<li><strong>显式推理路径生成</strong>：逐步比较段落相关性、生成对比解释，或按“证据选择 → 推理 → 验证”构造结构化链。代表有 Self-Reasoning。</li>
+</ul>
+<h4 id="632">6.3.2 有依据的生成控制</h4>
+<table>
+<thead>
+<tr>
+<th>控制方式</th>
+<th>目的</th>
+<th>代表方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事实核验</td>
+<td>比较生成内容与证据是否一致，必要时自我修正</td>
+<td>Self-RAG 通过反思标记触发批判与纠正</td>
+</tr>
+<tr>
+<td>引文生成</td>
+<td>把陈述链接到来源，提高可追溯性</td>
+<td>RARR 在尽量保持文风的同时插入引用</td>
+</tr>
+<tr>
+<td>忠实推理</td>
+<td>要求每个推理步骤都受检索证据约束</td>
+<td>TRACE 构造知识图谱证据链；AlignRAG 用批评对齐修正推理路径</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64">6.4 本范式的总体评价</h3>
+<p>优点：能在不彻底改变 RAG 架构的情况下逐阶段升级，工程上容易模块化落地。<br />
+局限：若知识只在开始时检索一次，后续推理中暴露的新缺口仍无法补齐；更强的推理也不能挽救根本缺失的证据。</p>
+<hr />
+<h2 id="7-rag-enhanced-reasoningrag">7. RAG-Enhanced Reasoning：RAG 增强推理</h2>
+<p>这一方向把可检索的信息当作推理的外部前提或上下文提示，分为 <strong>外部知识检索</strong> 和 <strong>上下文内检索</strong>（pp. 4–5）。</p>
+<h3 id="71">7.1 外部知识检索</h3>
+<h4 id="711">7.1.1 知识库</h4>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>检索对象</th>
+<th>推理用途</th>
+<th>代表方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通用/多跳 QA</td>
+<td>一般知识库中的相连事实</td>
+<td>补齐连续推理链</td>
+<td>AlignRAG、MultiHop-RAG、CRP-RAG</td>
+</tr>
+<tr>
+<td>数学/定理证明</td>
+<td>定理库中的形式化引理</td>
+<td>形成结构化演绎前提</td>
+<td>Premise-Retrieval、ReaRAG</td>
+</tr>
+<tr>
+<td>法律</td>
+<td>司法判例</td>
+<td>类比推理与裁判依据</td>
+<td>CASEGPT、CBR-RAG</td>
+</tr>
+<tr>
+<td>代码生成</td>
+<td>仓库中的代码片段</td>
+<td>保证语法、接口和实现逻辑</td>
+<td>CodeRAG、Koziolek et al.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="712-web">7.1.2 Web 检索</h4>
+<ul>
+<li><strong>事实核查</strong>：VeraCT Scan、Ragar、PACAR、STEEL 从新闻或社交媒体逐步取证。</li>
+<li><strong>开放域 QA / Agentic Search</strong>：RARE、RAG-Star、MindSearch、Open-RAG 从广泛网页材料中迭代完善上下文。</li>
+<li><strong>专业领域</strong>：FRVA、ALR² 检索医学或学术文献以支持诊断和长上下文问答。</li>
+</ul>
+<p>Web 的优势是时效性与覆盖面；代价是页面噪声、来源质量差异、内容变化和潜在攻击。</p>
+<h4 id="713">7.1.3 工具使用</h4>
+<p>工具把“检索”扩展为对外部可执行能力的调用：</p>
+<ul>
+<li>QA：Re-Invoke、AVATAR、ToolkenGPT、ToolLLM 调用计算器或 Yahoo Finance、Wikidata 等 API。</li>
+<li>科学建模：SCIAGENT、TRICE 使用 WolframAlpha 等符号计算工具。</li>
+<li>数学：llm-tool-use 自主使用计算器，提高数值准确性。</li>
+<li>代码：RAR 从 OSCAT 等库取回文档，增强低资源语言代码生成。</li>
+</ul>
+<p>这类方法得到的不只是文本知识，还包括<strong>可执行结果和环境反馈</strong>。</p>
+<h3 id="72">7.2 上下文内检索</h3>
+<h4 id="721">7.2.1 先前经验</h4>
+<p>将历史交互、过去成功策略或决策轨迹作为可检索记忆：</p>
+<ul>
+<li>规划与决策：RAHL、RA-DT 检索过去决策和强化信号。</li>
+<li>交互式/多模态任务：JARVIS-1、RAP、EM-LLM 回忆多模态交互和对话历史。</li>
+<li>专业逻辑推理：CoPS 检索医疗、法律等结构化案例。</li>
+</ul>
+<p>它使模型从“一次性求解器”变成可复用经验的持续学习体，但也带来记忆污染、过时经验和隐私问题。</p>
+<h4 id="722">7.2.2 示例或训练数据</h4>
+<ul>
+<li>文本理解：RE4、Fei et al. 检索带标注句对，增强关系识别。</li>
+<li>QA / ICL：OpenRAG、UPRISE、MoD、Dr.ICL 选择与当前问题相似的 demonstration。</li>
+<li>代码：PERC 按语义或结构相似性检索伪代码，使生成结果贴合目标结构。</li>
+</ul>
+<p>与经验检索的区别：前者主要取自当前智能体的历史记忆；示例检索主要取自外部 demonstration 或训练集。</p>
+<h3 id="73">7.3 本范式的总体评价</h3>
+<p>优点：为推理补齐事实、规则、计算结果、示例模式和历史经验，减少无依据推断。<br />
+局限：检索内容不是天然正确；无关、冲突或恶意知识会扰乱模型推理，形成“有证据外观的错误答案”。</p>
+<hr />
+<h2 id="8-synergized-rag-reasoning">8. Synergized RAG-Reasoning：检索与推理协同</h2>
+<h3 id="81">8.1 核心闭环</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>理解问题
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  ↓
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>形成当前推理状态/假设
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  ↓
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>识别知识缺口并生成查询
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ↓
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>检索或调用工具
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  ↓
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>评估、融合、验证新证据
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  ↓
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>更新推理状态
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  ├─ 证据不足/冲突 → 改写查询并继续循环
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  └─ 证据充分 → 综合答案、引用来源、停止
+</code></pre></div>
+<p>这一范式同时解决两种单向增强的不足：推理让检索更有目的，新证据又让推理持续校正。</p>
+<h2 id="9">9. 协同式系统维度一：推理工作流</h2>
+<p>论文将工作流划分为链、树、图，代表从线性序列到分支搜索、再到任意关系结构的演进（pp. 5–6，p. 26）。</p>
+<h3 id="91-chain-based">9.1 链式（Chain-based）</h3>
+<p><strong>机制</strong>：推理步骤构成线性序列，在相邻步骤间插入检索。</p>
+<ul>
+<li>IRCoT、Rat：交替执行推理与检索，避免完全依赖参数知识。</li>
+<li>CoV-RAG：使用 verification chain 对照检索材料检查并修正每一步。</li>
+<li>RAFT：微调模型忽略干扰文档。</li>
+<li>Chain-of-Note：逐篇生成“阅读笔记”，过滤无用材料。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>优势</th>
+<th>局限</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每步一次检索，延迟和 token 成本较低；易缓存、易监控</td>
+<td>早期错误子查询会向后传播；长链上下文迅速膨胀</td>
+<td>单跳或短多跳 QA；中间事实容易访问的任务</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-tree-based">9.2 树式（Tree-based）</h3>
+<h4 id="921-tree-of-thoughttot">9.2.1 Tree-of-Thought（ToT）</h4>
+<p>显式构造确定性推理树，同时探索多条逻辑路径，降低被早期错误假设锁死的风险。</p>
+<ul>
+<li>RATT：构造检索增强的 thought tree，同时评估多条轨迹。</li>
+<li>Tree of Clarifications：处理歧义问题。</li>
+<li>GROVE：用于复杂故事创作。</li>
+<li>也被用于多种诊断可能性的覆盖。</li>
+</ul>
+<p>优势是高召回、路径透明；缺点是分支带来近似二次增长的检索与推理成本。</p>
+<h4 id="922-monte-carlo-tree-searchmcts">9.2.2 Monte Carlo Tree Search（MCTS）</h4>
+<p>依据启发式概率动态选择更有希望的分支，把预算集中在高价值路径上。</p>
+<ul>
+<li>AirRAG：加入 self-consistency 检查。</li>
+<li>MCTS-RAG：自适应 MCTS 检索，反复精炼证据并减少幻觉。</li>
+<li>SeRTS：用于生物医学 RAG 的自奖励树搜索。</li>
+</ul>
+<p>优势是预算感知、可随时停止；缺点是调参复杂，仍可能收敛到次优子树。</p>
+<h3 id="93-graph-based">9.3 图式（Graph-based）</h3>
+<h4 id="931-walk-on-graph">9.3.1 Walk-on-Graph</h4>
+<p>以已有知识图谱或文档图为主要检索/推理空间：</p>
+<ul>
+<li>PullNet、QA-GNN、GreaseLM：用 GNN 迭代聚合邻居节点。</li>
+<li>SR、LightRAG、StructRAG：用向量索引、PageRank 等轻量图技术检索多跳上下文。</li>
+</ul>
+<p>优势：在高质量显式图上效率高、路径短。<br />
+局限：依赖图谱质量；若关键边缺失就难以推理，也不适合结构不稳定的开放 Web。</p>
+<h4 id="932-think-on-graph">9.3.2 Think-on-Graph</h4>
+<p>把图直接放入 LLM 的推理循环，由模型决定下一步探索哪个实体、关系或文档节点：</p>
+<ul>
+<li>ToG / ToG 2.0：把知识图谱当作“推理游乐场”，逐步构造通向答案的路径。</li>
+<li>Graph-CoT：循环执行“推理 → 图交互 → 执行”。</li>
+<li>KGP：先构建文档级知识图谱，再让智能体在段落间导航。</li>
+<li>GraphReader：每步显式检索子图并锚定证据。</li>
+</ul>
+<p>优势：自适应、可验证，适合事实密集型综合；缺点是微工具调用多、延迟高，缺少剪枝时搜索空间会爆炸。</p>
+<h3 id="94">9.4 三类工作流的本质差异</h3>
+<table>
+<thead>
+<tr>
+<th>结构</th>
+<th>状态表示</th>
+<th>搜索方式</th>
+<th>主要风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>链</td>
+<td>单一当前推理状态</td>
+<td>沿一条路径前进</td>
+<td>错误传播、无法回退</td>
+</tr>
+<tr>
+<td>树</td>
+<td>多个互斥或竞争假设</td>
+<td>分支、打分、剪枝、回溯</td>
+<td>组合爆炸、调用成本高</td>
+</tr>
+<tr>
+<td>图</td>
+<td>实体、证据、关系和推理状态组成网络</td>
+<td>图遍历或动态扩图</td>
+<td>图构建质量、循环和搜索空间失控</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10">10. 协同式系统维度二：智能体编排</h2>
+<h3 id="101">10.1 单智能体</h3>
+<p>单个模型管理问题分解、搜索、证据整合和回答，具有共享上下文和实现简单的优点。</p>
+<h4 id="1011-prompting">10.1.1 Prompting</h4>
+<ul>
+<li><strong>ReAct</strong>：显式交替 Reasoning 与 Action，通过 <code>search</code> 等命令触发工具。</li>
+<li><strong>Self-Ask / IRCoT</strong>：递归提出并回答子问题，把检索嵌入 CoT。</li>
+<li><strong>DeepRAG / Self-RAG</strong>：反思自身知识边界，仅在需要时检索。</li>
+</ul>
+<p>优点是无需训练、原型快；性能高度受提示、上下文和系统设计限制。</p>
+<h4 id="1012-supervised-fine-tuningsft">10.1.2 Supervised Fine-Tuning（SFT）</h4>
+<ul>
+<li>Toolformer、INTERS 在交错搜索与推理的数据上微调模型。</li>
+<li>数据来源包括：自动生成大规模任务特定合成数据；把已有数据重写成 instruction 格式。</li>
+<li>INTERS 覆盖 20 个任务，由 43 个数据集和人工模板构成。</li>
+</ul>
+<p>优点是行为模式明确、精度通常高于纯提示；缺点是数据成本大，容易过拟合工具 schema，跨域泛化下降。</p>
+<h4 id="1013-reinforcement-learningrl">10.1.3 Reinforcement Learning（RL）</h4>
+<p>RL 用奖励同时优化：<strong>搜什么、何时搜、如何用证据、何时停止</strong>。</p>
+<ul>
+<li>WebGPT、RAG-RL：以事实正确性或人类偏好奖励输出。</li>
+<li>Search-R1：训练模型在推理中生成 <code>&lt;search&gt;</code> token。</li>
+<li>R1-Searcher：基于 RL 的搜索，在不同领域表现出较强泛化。</li>
+<li>DeepResearcher：首批端到端 RL 训练、直接与开放 Web 交互的研究智能体。</li>
+<li>ReSearch、ReARTeR：不仅追求答案正确，还对齐推理步骤的事实性与可解释性。</li>
+</ul>
+<p>论文指出 RL 环境中可涌现出分解、迭代验证、检索规划等 SFT 难以直接灌输的能力，但奖励设计与训练成本是核心难题。</p>
+<h3 id="102">10.2 多智能体</h3>
+<h4 id="1021">10.2.1 去中心化架构</h4>
+<p>多个角色专门化智能体并行检索、推理和整合，彼此协作但没有单一总控。</p>
+<ul>
+<li>M-RAG、Salve et al.：各智能体负责不同数据库分区或数据源。</li>
+<li>Collab-RAG、RAG-KG-IL：按模型能力分配不同推理与知识整合角色。</li>
+<li>MDocAgent：文本和图像智能体协作处理文档 QA。</li>
+<li>Agentic Reasoning：联合搜索、计算和结构化推理工具智能体。</li>
+</ul>
+<p>优势：覆盖广、可发挥异构专家能力、对单个噪声源更鲁棒。<br />
+局限：通信和共识成本高，冲突答案需要额外仲裁。</p>
+<h4 id="1022">10.2.2 中心化/分层架构</h4>
+<p>管理者负责拆题、路由、预算和汇总，工作智能体执行专门任务。</p>
+<ul>
+<li>HM-RAG、SurgRAW：decomposer–retriever–decider 结构，隔离多模态处理或手术决策等子问题。</li>
+<li>Wu et al.：依据任务相关性动态选择智能体。</li>
+<li>Iannelli et al.：按资源约束重配置系统。</li>
+<li>Chain of Agents：分层处理超长上下文。</li>
+</ul>
+<p>优势：减少重复搜索，保持清晰来源链，易按预算横向扩展。<br />
+局限：管理者可能成为单点瓶颈，其错误会系统性影响所有下游智能体。</p>
+<h3 id="103">10.3 工作流与编排是正交维度</h3>
+<p>链/树/图描述“<strong>推理状态如何展开</strong>”，单/多智能体描述“<strong>谁来执行和协调这些步骤</strong>”。例如：</p>
+<ul>
+<li>单智能体可以执行 MCTS 树搜索。</li>
+<li>中心化多智能体可以让多个 worker 并行探索树分支。</li>
+<li>去中心化多智能体可以共同维护一张证据图。</li>
+</ul>
+<p>这比把“多智能体”直接当成一种推理结构更准确。</p>
+<hr />
+<h2 id="11-deep-research">11. Deep Research：协同式范式的典型实现</h2>
+<p>论文把 Deep Research 定义为一种主动研究能力（pp. 24–25）：系统自主分解复杂问题，迭代搜集多源证据，通过多步推理综合结果。</p>
+<h3 id="111">11.1 单智能体与多智能体实现</h3>
+<table>
+<thead>
+<tr>
+<th>实现</th>
+<th>优势</th>
+<th>局限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单智能体</td>
+<td>流程简单；全部步骤共享上下文；通信开销低</td>
+<td>专业化和多模态处理能力有限；单模型错误可能贯穿全程</td>
+</tr>
+<tr>
+<td>多智能体</td>
+<td>职责模块化；可并行；专业智能体可能更稳健</td>
+<td>协调、通信、冲突消解和计算成本更高</td>
+</tr>
+</tbody>
+</table>
+<h3 id="112">11.2 检索器的演进</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>稀疏关键词检索
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  → 双编码器密集检索（语义匹配）
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  → 实时 Web 搜索（开放域、动态信息）
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  → LLM 可调用的检索工具（按需、可编排）
+</code></pre></div>
+<p>附录列出的开源/研究实现包括 Agentic Reasoning、gpt-researcher、deep-searcher、Search-R1、ZeroSearch、Webthinker、nanoDeepResearch、DeerFlow、DeepResearcher、R1-Searcher、ReSearch、Search-o1、Open Deep Search 等。其差异集中在：</p>
+<ul>
+<li>基座模型；</li>
+<li>Prompting、SFT、DPO 或 GRPO/PPO/Reinforce 等优化方式；</li>
+<li>answer、format、retrieval 或偏好对奖励；</li>
+<li>Web 搜索、局部检索或二者混合；</li>
+<li>单体、去中心化或中心化架构；</li>
+<li>训练与评测数据集。</li>
+</ul>
+<h3 id="113">11.3 论文隐含的成熟度判断</h3>
+<p>截至 v2 发布时，许多 Deep Research 项目仍是 prompt-only、训练数据或评测数据未披露的工程实现；RL 研究通常集中在 QA 基准。由此可见，产品形态发展很快，但统一、可复现、覆盖真实研究过程的评测仍滞后。</p>
+<hr />
+<h2 id="12">12. 基准与数据集</h2>
+<h3 id="121">12.1 规模与覆盖</h3>
+<p>附录汇总 <strong>46 个 benchmark、13 类任务、12 个领域</strong>，并标注知识来源、知识类型、推理类型、规模及输入输出（pp. 20–24）。正文给出代表性集合：</p>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>代表数据集</th>
+<th>主要考察</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web 浏览</td>
+<td>BrowseComp（1,266）、GAIA（466）、WebWalkerQA（680）</td>
+<td>搜索规划、页面导航、工具使用、长尾信息定位</td>
+</tr>
+<tr>
+<td>单跳 QA</td>
+<td>TriviaQA（650k+）、NQ（307,373）</td>
+<td>大规模噪声语料中的精准事实召回</td>
+</tr>
+<tr>
+<td>多跳 QA</td>
+<td>2WikiMultiHopQA（192,606）、HotpotQA（113k）、MuSiQue（25k）</td>
+<td>跨文档证据连接和演绎推理</td>
+</tr>
+<tr>
+<td>多项选择</td>
+<td>QuALITY（6,737）、MMLU-Pro（12,032）</td>
+<td>长文理解、专业知识、演绎/归纳推理</td>
+</tr>
+<tr>
+<td>数学</td>
+<td>MATH（12,500）、AQuA（100k）</td>
+<td>定理/公式检索、符号与多步演绎</td>
+</tr>
+<tr>
+<td>代码</td>
+<td>Refactoring Oracle（7,226）、LiveCodeBench（500+）</td>
+<td>文档/代码检索、执行反馈、调试和自我修正</td>
+</tr>
+</tbody>
+</table>
+<h3 id="122">12.2 不同基准的“检索难点 × 推理难点”</h3>
+<table>
+<thead>
+<tr>
+<th>基准族</th>
+<th>主要检索挑战</th>
+<th>主要推理挑战</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TriviaQA、NQ</td>
+<td>从超大、嘈杂语料中检索</td>
+<td>处理真实问题中的含糊和信息不足</td>
+</tr>
+<tr>
+<td>HotpotQA、2Wiki、MuSiQue、HLE</td>
+<td>跨多个文档找到高依赖证据</td>
+<td>将离散事实连接成多跳推理链</td>
+</tr>
+<tr>
+<td>MMLU-Pro、QuALITY</td>
+<td>专业或超长叙事材料中的深层知识定位</td>
+<td>专家级问题求解和长文本一致性</td>
+</tr>
+<tr>
+<td>MATH、AQUA-RAT</td>
+<td>精确定位定理、引理和公式</td>
+<td>每一步都必须正确的符号/演绎推理，并解释过程</td>
+</tr>
+<tr>
+<td>LiveCodeBench</td>
+<td>从仓库、文档、论坛等异构来源取回结构化信息</td>
+<td>执行代码，根据测试结果调试并迭代</td>
+</tr>
+<tr>
+<td>BrowseComp、WebWalkerQA</td>
+<td>动态、交互、长尾 Web 检索</td>
+<td>规划 search/click/extract 等多步策略</td>
+</tr>
+</tbody>
+</table>
+<h3 id="123">12.3 当前评测的系统性缺口</h3>
+<ol>
+<li><strong>领域偏窄</strong>：通用或学术任务多，真实工业、私有和垂直领域少。</li>
+<li><strong>模态不足</strong>：异构、多模态内容的统一检索评测不足。</li>
+<li><strong>可信度不足</strong>：很少在同一框架中测试噪声、冲突、变化和恶意信息。</li>
+<li><strong>推理类型偏科</strong>：以演绎为主，因果、反事实、决策和专业类比推理覆盖不足。</li>
+<li><strong>只看最终答案</strong>：缺乏对整个轨迹的标准化指标，包括检索效率、中间查询质量、证据覆盖、推理链逻辑一致性和停止时机。</li>
+</ol>
+<p>这意味着“最终答对”不足以判断系统是否真正形成了可靠的 RAG-Reasoning 能力。</p>
+<hr />
+<h2 id="13">13. 未来研究方向</h2>
+<h3 id="131">13.1 推理效率</h3>
+<ul>
+<li>多轮检索与推理造成明显延迟，一次 Deep Research 查询可能超过 10 分钟。</li>
+<li>可探索 latent reasoning、思维蒸馏、长度惩罚和推理深度控制。</li>
+<li>模型侧可结合量化、剪枝、知识蒸馏，构建小型高效系统。</li>
+</ul>
+<h3 id="132">13.2 检索效率</h3>
+<ul>
+<li>预算感知的查询规划。</li>
+<li>缓存历史证据或 belief state，减少重复访问。</li>
+<li>根据不确定性决定何时检索、检索多少、何时停止。</li>
+</ul>
+<h3 id="133">13.3 人机协同</h3>
+<ul>
+<li>文献综述、交互式编程等任务具有强个性化，用户也未必知道该如何提问。</li>
+<li>人可被视为高级智能体，提供语义细腻的反馈。</li>
+<li>系统应在不确定性下建模用户意图，通过迭代澄清，并适应用户专业水平和偏好。</li>
+</ul>
+<h3 id="134-agentic">13.4 Agentic 结构与能力</h3>
+<ul>
+<li>动态决定智能体角色。</li>
+<li>自主选择工具和检索策略。</li>
+<li>根据上下文调整规划、路由与编排。</li>
+<li>在准确率、时延和资源约束之间自适应权衡。</li>
+</ul>
+<h3 id="135">13.5 多模态检索</h3>
+<ul>
+<li>从文本或简单图文扩展到图像、表格、文档和其他异构模态。</li>
+<li>增强 MLLM 的 grounding 与跨模态推理。</li>
+<li>使用 hybrid-modal CoT 与真实世界的多模态搜索工具交互。</li>
+<li>建立能联合嵌入图像、表格、文本和复杂文档的统一检索器。</li>
+</ul>
+<h3 id="136">13.6 检索可信度</h3>
+<ul>
+<li>系统易受被投毒、误导性外部知识攻击。</li>
+<li>水印和数字指纹可增强来源追踪，但不足以适应不断变化的攻击。</li>
+<li>应联合研究来源验证、不确定性量化和鲁棒生成。</li>
+<li>评测应从准确率扩展到多维可信性。</li>
+</ul>
+<hr />
+<h2 id="14">14. 论文贡献</h2>
+<ol>
+<li><strong>统一视角</strong>：不是分别综述 RAG 与 reasoning，而是按二者的信息流关系组织研究。</li>
+<li><strong>演进叙事清晰</strong>：从 Reasoning → RAG、RAG → Reasoning 到 RAG ⇔ Reasoning，解释了为何 Agentic RAG 是自然演进而非孤立热点。</li>
+<li><strong>双维度拆解协同系统</strong>：把推理工作流与智能体编排分开讨论，便于分析系统设计。</li>
+<li><strong>覆盖广</strong>：综合 200 余项研究，并汇总 46 个 benchmark 和一批 Deep Research 实现。</li>
+<li><strong>工程权衡明确</strong>：附录对链/树/图、Prompt/SFT/RL、单/多智能体的优缺点和场景进行了对比。</li>
+</ol>
+<h2 id="15">15. 局限与批判性评价</h2>
+<h3 id="151">15.1 作者自述的局限</h3>
+<ul>
+<li>为追求广度，未深入稀疏/密集检索、记忆增强检索、形式逻辑、符号方法、长上下文推理等细节。</li>
+<li>三分法抽象程度较高，可能掩盖各方法独有的假设、成本和失败模式。</li>
+</ul>
+<h3 id="152">15.2 本文分类的优点与模糊处</h3>
+<p><strong>优点</strong>：以控制流而非模型品牌分类，能解释从静态 RAG 到 agentic loop 的结构变化。<br />
+<strong>模糊处</strong>：同一方法可能跨越多个章节。例如 Self-RAG 既是 grounded generation control，又具备自反思和按需检索的单智能体特征。实际系统通常是多个分类单元的组合，不能把 taxonomy 当作互斥标签。</p>
+<h3 id="153">15.3 缺乏统一的因果比较</h3>
+<p>论文罗列了大量方法，但不同工作使用不同基座模型、搜索后端、训练预算和数据集。仅凭最终分数难以判断增益究竟来自：</p>
+<ul>
+<li>更强的模型；</li>
+<li>更多检索调用；</li>
+<li>更高质量的搜索引擎；</li>
+<li>更长的推理 token；</li>
+<li>更好的编排策略。</li>
+</ul>
+<p>未来需要在固定模型、固定索引、固定调用预算下做组件消融和 Pareto 比较。</p>
+<h3 id="154">15.4 “深推理”不等于“可靠推理”</h3>
+<p>更长的链、更大的树或更多智能体不天然带来真实性。系统可能产生：</p>
+<ul>
+<li>多轮重复搜索而非信息增益；</li>
+<li>互相引用同一错误来源造成伪共识；</li>
+<li>引文与陈述表面相关但不真正蕴含；</li>
+<li>管理智能体的错误分解被所有 worker 放大。</li>
+</ul>
+<p>所以核心指标应是<strong>单位成本的信息增益、证据支持度和校准性</strong>，而不只是步骤数量。</p>
+<h3 id="155">15.5 安全、隐私和治理讨论仍偏薄</h3>
+<p>论文提到知识投毒与可信度，但对提示注入、工具权限、数据外泄、版权、私人知识库访问控制、智能体操作审计等真实部署问题讨论不足。Agentic RAG 一旦可主动访问 Web 和工具，威胁面比静态 RAG 大得多。</p>
+<h3 id="156">15.6 评测仍未覆盖真实研究质量</h3>
+<p>QA exact match 很难衡量长篇研究报告中的：论点覆盖、来源多样性、证据独立性、时效性、反方观点、引用精度和结论校准。Deep Research 需要新的过程级与报告级评测，而不是简单沿用多跳 QA。</p>
+<hr />
+<h2 id="16">16. 面向系统设计的综合启示（基于论文的进一步归纳）</h2>
+<blockquote>
+<p>本节是阅读后的工程归纳，不是论文原文逐句结论。</p>
+</blockquote>
+<h3 id="161">16.1 最小可用闭环</h3>
+<p>一个真正的协同式 RAG-Reasoning 系统至少应具有：</p>
+<ol>
+<li>显式的当前问题与子目标状态；</li>
+<li>知识缺口或不确定性检测；</li>
+<li>查询生成、改写和检索工具调用；</li>
+<li>证据相关性、来源质量与蕴含关系评估；</li>
+<li>依据新证据更新或回退推理；</li>
+<li>预算、充分性与停止条件；</li>
+<li>结论到证据的可追溯映射。</li>
+</ol>
+<p>少了第 2、5 项，系统很可能仍只是包装更复杂的静态 RAG；少了第 6 项，系统容易无限搜索或成本失控；少了第 7 项，则难以审计。</p>
+<h3 id="162">16.2 架构选择建议</h3>
+<table>
+<thead>
+<tr>
+<th>任务特征</th>
+<th>更合适的起点</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>短多跳、事实易定位</td>
+<td>链式单智能体</td>
+<td>成本低、易实现和监控</td>
+</tr>
+<tr>
+<td>问题有歧义或多条 plausible path</td>
+<td>ToT 或预算受控的 MCTS</td>
+<td>能保留多个假设并回退</td>
+</tr>
+<tr>
+<td>已有高质量企业 KG</td>
+<td>Walk-on-Graph</td>
+<td>结构稳定、检索路径短</td>
+</tr>
+<tr>
+<td>开放 Web、事实密集型综合</td>
+<td>Think-on-Graph 或动态证据图</td>
+<td>适合持续扩展、验证证据关系</td>
+</tr>
+<tr>
+<td>多源异构、可并行的研究</td>
+<td>去中心化专家智能体</td>
+<td>扩大覆盖，发挥数据源/模态专长</td>
+</tr>
+<tr>
+<td>严格预算、需清晰审计</td>
+<td>中心化/分层多智能体</td>
+<td>manager 可去重、分配预算并维护 provenance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="163">16.3 应重点记录的运行轨迹</h3>
+<ul>
+<li>每一步为什么检索；</li>
+<li>查询由哪个假设或知识缺口产生；</li>
+<li>检索结果为何被采用或拒绝；</li>
+<li>不同来源是否独立、是否冲突；</li>
+<li>哪条证据支持哪句结论；</li>
+<li>何时回退、为何停止；</li>
+<li>token、搜索调用、时间和费用。</li>
+</ul>
+<p>这些轨迹同时服务于调试、评测、安全审计和后续训练。</p>
+<h3 id="164">16.4 推荐的评测维度</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>结果层：正确性、完整性、校准性、引用精度
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>证据层：召回、来源质量、多样性、蕴含度、时效性
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>过程层：查询质量、信息增益、逻辑一致性、回退能力、停止质量
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>资源层：延迟、token、检索/工具调用数、费用
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>安全层：注入抵抗、投毒鲁棒性、权限边界、隐私与可审计性
+</code></pre></div>
+<hr />
+<h2 id="17">17. 关键术语</h2>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RTR</td>
+<td>Retrieval-Then-Reasoning，先一次性检索，再推理生成的静态流程</td>
+</tr>
+<tr>
+<td>Reasoning-Enhanced RAG</td>
+<td>用推理优化 RAG 的检索、整合或生成阶段</td>
+</tr>
+<tr>
+<td>RAG-Enhanced Reasoning</td>
+<td>用检索到的外部或上下文知识增强推理</td>
+</tr>
+<tr>
+<td>Synergized RAG-Reasoning</td>
+<td>检索和推理多轮交替、互相更新的闭环</td>
+</tr>
+<tr>
+<td>Agentic RAG</td>
+<td>模型自主决定何时、为何、如何检索或调用工具的 RAG</td>
+</tr>
+<tr>
+<td>Deep Research</td>
+<td>自主拆题、多步搜索、证据验证与长篇综合的智能体式研究流程</td>
+</tr>
+<tr>
+<td>Walk-on-Graph</td>
+<td>在已有图上检索和聚合信息</td>
+</tr>
+<tr>
+<td>Think-on-Graph</td>
+<td>LLM 在推理循环中主动选择节点/关系并动态扩展证据图</td>
+</tr>
+<tr>
+<td>Grounded Generation</td>
+<td>输出和推理步骤均受外部证据约束，可追溯、可核验</td>
+</tr>
+<tr>
+<td>Retrieval Adequacy</td>
+<td>当前证据是否足以支撑继续推理或给出结论</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18">18. 阅读结论</h2>
+<p>这篇综述最有价值的地方，不是列出大量 RAG 方法，而是提出了一个清晰的演进坐标：<strong>从组件级增强转向闭环级协同</strong>。未来系统竞争的重点将不再只是“检索器更准”或“模型想得更久”，而是能否在有限预算内，让查询、证据、推理状态和工具行动形成受控的反馈系统。</p>
+<p>真正成熟的 Agentic RAG 需要同时回答四个问题：</p>
+<ol>
+<li><strong>缺什么知识？</strong></li>
+<li><strong>应该去哪里、用什么方式获取？</strong></li>
+<li><strong>新证据如何改变当前推理？</strong></li>
+<li><strong>什么时候证据已经足够，可以可靠停止？</strong></li>
+</ol>
+<p>论文已经很好地整理了前沿路线；但从研究原型走向可信生产系统，仍需补上统一过程评测、成本控制、来源安全、人机协同和可审计性。</p>
+<h2 id="19">19. 原文定位索引</h2>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>原文位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>总览图与三范式</td>
+<td>Figure 1，p. 2</td>
+</tr>
+<tr>
+<td>完整 taxonomy</td>
+<td>Figure 2，p. 3</td>
+</tr>
+<tr>
+<td>Reasoning-Enhanced RAG</td>
+<td>Section 3，pp. 2–4</td>
+</tr>
+<tr>
+<td>RAG-Enhanced Reasoning</td>
+<td>Section 4，pp. 4–5</td>
+</tr>
+<tr>
+<td>Synergized RAG-Reasoning</td>
+<td>Section 5，pp. 5–8</td>
+</tr>
+<tr>
+<td>代表性 benchmark</td>
+<td>Section 6 / Table 1，pp. 8–9</td>
+</tr>
+<tr>
+<td>未来工作</td>
+<td>Section 7，pp. 8–9</td>
+</tr>
+<tr>
+<td>完整 benchmark 汇总</td>
+<td>Appendix A / Tables 2–4，pp. 20–24</td>
+</tr>
+<tr>
+<td>Deep Research 实现</td>
+<td>Appendix B / Table 5，pp. 24–25</td>
+</tr>
+<tr>
+<td>工作流与编排权衡</td>
+<td>Appendix C / Table 6，pp. 25–26</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

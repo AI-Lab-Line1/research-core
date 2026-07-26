@@ -1,0 +1,1002 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ai-lab-line1.github.io/research-core/%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/">
+      
+      
+        <link rel="prev" href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/">
+      
+      
+        <link rel="next" href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>知识蒸馏 - AI Lab 科研实验日志与文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-header__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Lab 科研实验日志与文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              知识蒸馏
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI Lab 实验室科研文档与实验日志
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG（Retrieval-Augmented Generation）笔记
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Towards Agentic RAG with Deep Reasoning：论文精读
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  阅读报告：Towards Agentic RAG with Deep Reasoning
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏（Knowledge Distillation）笔记
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-nav__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Lab 科研实验日志与文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Lab 实验室科研文档与实验日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG（Retrieval-Augmented Generation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Towards Agentic RAG with Deep Reasoning：论文精读
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--mature"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阅读报告：Towards Agentic RAG with Deep Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、温度软化：让暗知识显现
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、两大核心损失函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、两大核心损失函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-l_student" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 学生损失函数 (L_student)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-l_distill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 蒸馏损失 (L_distill)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、知识形态的演进：从响应到特征与关系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、知识形态的演进：从响应到特征与关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-feature-based-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 特征式知识蒸馏 (Feature-Based Distillation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-relation-based-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 关系式知识蒸馏 (Relation-Based Distillation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏（Knowledge Distillation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、温度软化：让暗知识显现
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、两大核心损失函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、两大核心损失函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-l_student" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 学生损失函数 (L_student)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-l_distill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 蒸馏损失 (L_distill)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、知识形态的演进：从响应到特征与关系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、知识形态的演进：从响应到特征与关系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-feature-based-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 特征式知识蒸馏 (Feature-Based Distillation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-relation-based-distillation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 关系式知识蒸馏 (Relation-Based Distillation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>知识蒸馏</h1>
+
+<blockquote>
+<p>在不显著牺牲性能的前提下，让模型变得更小、更快、更易于部署；强调的是从一个模型向另一个模型迁移抽象的知识；</p>
+</blockquote>
+<p>教师模型和学生模型的存在：教师模型无所不知，但是思考过程极为复杂，回应速度缓慢；学生模型是一个更小，更轻量的模型，不是要一字不差的背诵老师的所有藏书，而是要学习老师分析的问题，解决问题的思维方式和直觉，最终达到一个只需要很小的计算资源就可以快速，高效的处理很多问题的智慧；</p>
+<p><strong>知识蒸馏，正是这样一个让教师模型将其深邃的知识系统性地传授给轻量级学生模型的过程；</strong></p>
+<p>传统的模型训练，是让模型直接从硬标签中学习，例如在处理一张猫的图片时，它的标签是 <code>[0, 1, 0]</code>（假设类别顺序为：狗、猫、鱼）；这种监督方式虽然有效，但是忽略了大量有价值的信息；
+教师模型去判断猫的图片时，它得到的是一个概率分布，比如 <code>[0.05, 0.7, 0.001, 0.249]</code>（假设类别为：狗、猫、鱼、老虎），从这个信息中我们还得到了两种类别之间的<strong>相似度信息</strong>；</p>
+<p>这种蕴含在类别间概率关系中的宝贵信息正是<strong>暗知识（Dark Knowledge）</strong>，它反应了教师模型对数据内在结构的深刻理解；知识蒸馏的<strong>核心目标</strong>，正是让学生模型去学习教师模型输出的、这个富含<strong>暗知识</strong>的完整概率分布；</p>
+<h3 id="_1">目录</h3>
+<p><a href="#一、温度软化：让暗知识显现">一、温度软化：让暗知识显现</a>
+ <a href="#二、两大核心损失函数">二、两大核心损失函数</a>
+ <a href="#三、知识形态的演进：从响应到特征与关系">三、知识形态的演进：从响应到特征与关系</a></p>
+<h2 id="_2">一、温度软化：让暗知识显现</h2>
+<p>为了让这些隐藏在极小概率值中的暗知识更容易被学生学习，引入了温度这一参数，通过在softmax函数中加入温度T，进而软化教师的输出概率，得到所谓的软标签；
+![[Pasted image 20260723095200.png]]
+随着温度T的升高，教师模型的输出概率分布如何<strong>从尖锐变得平滑</strong>，从而让负标签中的“暗知识”更容易被学生模型学习；通过这种方式，学生模型能够从一个“宽容、信息更丰富的教师信号中学习，从而更有效地吸收其知识；</p>
+<h2 id="_3">二、两大核心损失函数</h2>
+<p>知识蒸馏的目标是让学生模型既要学得像老师，又要能自己答对题，学生模型的训练过程由一个<strong>组合损失函数</strong>来驱动，这个总的损失是两个关键部分的加权和；
+<strong><code>Total Loss = α * L_distill + (1 - α) * L_student</code></strong>
+这里的 <code>α</code> 是一个超参数，用于平衡两个损失项的重要性；</p>
+<h3 id="21-l_student">2.1 学生损失函数 (<code>L_student</code>)</h3>
+<p>这部分损失是标准<strong>监督学习</strong>的支柱，它确保学生模型具备独立解决问题的基本能力；它所衡量的是<strong>学生模型的最终预测</strong>（在温度 T=1 下）与<strong>数据集中给出的真实硬标签</strong>之间的差距；通常使用标准的交叉熵（Cross-Entropy）损失；
+![[Pasted image 20260723095745.png]]</p>
+<blockquote>
+<p>从信息论角度看，交叉熵![[Pasted image 20260723102004.png]]
+衡量了使用基于预测分布Q的编码方案来编码来自真实分布P的事件所需的平均比特数；这意味着除了正确类别<code>c</code>的<code>P(c)=1</code>外，其余项均为0；因此，最小化交叉熵损失，就等价于最大化模型对正确类别的预测概率<code>Q(c)</code>；</p>
+</blockquote>
+<h3 id="22-l_distill">2.2 蒸馏损失 (<code>L_distill</code>)</h3>
+<p>所衡量的，是<strong>学生模型的软预测</strong>与<strong>教师模型的软标签</strong>这两个复杂的概率分布之间的距离；这两个软输出都是在相同的、较高的温度 <code>T &gt; 1</code>下计算得到的；
+![[Pasted image 20260723102201.png]]
+这里是利用<strong>KL散度</strong>（Kullback-Leibler Divergence）来衡量两个分布的差异；</p>
+<blockquote>
+<p>![[Pasted image 20260723102401.png]]</p>
+</blockquote>
+<h2 id="_4">三、知识形态的演进：从响应到特征与关系</h2>
+<p>教师的智慧并不仅仅体现在最终的答案（即 logits 或响应）中，它同样渗透在网络处理信息的整个过程，即中间层的特征表示中；仅仅模仿最终结果，有时会让学生感到困惑，因为它不知道教师是如何<strong>思考</strong>并得出结论的；这催生了更高级的蒸馏范式，旨在<strong>迁移更深层次的知识</strong>；
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>+------------------+                          +-----------------+
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|  Teacher Model   |                          |  Student Model  |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>+------------------+                          +-----------------+
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>|   Input Layer    | &lt;------ Same Input ----&gt; |   Input Layer   |
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|        |         |                          |        |        |
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|  ... Layers ...  |                          |  ... Layers ... |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|        |         |                          |        |        |
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>| +--------------+ | --(Feature-Based)--&gt; | +-------------+ |
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>| |Intermediate  | |       (Match       | | Intermediate| |
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>| |Feature Map T | |      Features)     | | Feature Map S | |
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>| +--------------+ | &lt;--------------------| +-------------+ | &lt;--- Adapter
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|        |         |                          |        |        |
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>|  ... Layers ...  |                          |  ... Layers ... |
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>|        |         |                          |        |        |
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>|      Logits T    | --(Response-Based)--&gt;    |     Logits S    |
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>+------------------+      (Match Logits)      +-----------------+
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        |                                             |
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        v                                             v
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a> Softmax(T)                                        Softmax(T) -&gt; Distill Loss
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>                                                   Softmax(1) -&gt; Student Loss
+</code></pre></div>
+<em>上图示意了不同蒸馏范式的知识迁移路径。<strong>响应式蒸馏</strong>在模型末端进行，而<strong>特征式蒸馏</strong>则在模型中间层进行</em>；</p>
+<h3 id="31-feature-based-distillation">3.1 特征式知识蒸馏 (Feature-Based Distillation)</h3>
+<p>强制学生模型直接模仿教师模型在某些<strong>中间层</strong>输出的特征图谱（Feature Maps），不仅要学习最终答案，还要学习解题过程中的草稿和中间步骤；典型代表是 <strong>FitNets</strong>，但它面临两个实际挑战；
+1. 中间层是<strong>黑盒</strong>状态：选择一些具有逻辑意义的关键节点，例如大型网络块（如 ResNet 中的<code>stage</code>）的输出，或是分类头之前的最后一层特征；这些位置通常包含了<strong>经过高度抽象和浓缩的语义信息</strong>；
+2. 师生模型结构不同，特征维度不匹配：学生模型的通道数、特征图尺寸可能与教师完全不同，解决方案是引入一个轻量的、可学习的<strong>适配器层（Adaptor Layer）</strong>，这个适配器通常由一个1x1卷积或一个<strong>全连接层</strong>构成，其作用就像一个翻译官，负责将学生模型的特征图谱进行线性变换，调整到与教师模型相同的维度和尺寸，然后再计算两者之间的差异（通常使用 <strong>L2损失 / MSE损失</strong>）；
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># 伪代码示例
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>def feature_loss(student_features,teacher_features,adaptor):
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    # 使用适配器将学生特征维度对齐教师特征
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    adapted_student_features = adaptor(student_features)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    # 计算L2损失
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    loss = F.mse_loss(adapted_student_features, teacher_features)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    return loss
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a># 在训练循环中
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a># ...
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a># student_intermediate_features = student_model.get_intermediate_layer(inputs)
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a># teacher_intermediate_features = teacher_model.get_intermediate_layer(inputs)
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a># loss_feature = feature_loss(student_intermediate_features, teacher_intermediate_features, adaptor_layer)
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a># total_loss += beta * loss_feature # beta是新的权重超参数
+</code></pre></div></p>
+<h3 id="32-relation-based-distillation">3.2 关系式知识蒸馏 (Relation-Based Distillation)</h3>
+<p>这是一种更抽象、更灵活的范式；它不要求学生和老师的笔记内容完全一致，而是要求笔记中反映出的<strong>思想脉络和逻辑关系</strong>保持一致；它迁移的是一种<strong>更为普适的结构化知识</strong>；</p>
+<p>经典例子包括：
++ 流式解题过程 (Flow of Solution Procedure, FSP)：计算不同层特征图之间的<strong>格拉姆矩阵（Gram Matrix）</strong>，该矩阵捕捉了特征通道之间的相关性；蒸馏的目标是让学生模型的FSP矩阵与教师模型的 FSP 矩阵保持一致；
++ 注意力迁移：在 Transformer 等注意力模型中，注意力矩阵本身就是一种宝贵的关系知识，它体现了模型在处理序列时，不同部分之间的依赖关系；可以<strong>让学生模型的注意力图谱去模仿教师模型的注意力图谱</strong>；
++ 角度蒸馏：不直接匹配特征向量，而是匹配不同样本特征向量之间的<strong>角度或距离关系</strong>；这保留了数据点在教师特征空间中的几何结构；
+关系式蒸馏对师生模型的架构差异容忍度更高，因为它迁移的是一种独立于具体特征值的、更高阶的知识；</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

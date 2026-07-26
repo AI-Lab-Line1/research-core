@@ -1,0 +1,1020 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ai-lab-line1.github.io/research-core/RAG/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../RAG%E7%AC%94%E8%AE%B0/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>RAG - AI Lab 科研实验日志与文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-header__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Lab 科研实验日志与文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RAG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI Lab 实验室科研文档与实验日志
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG（Retrieval-Augmented Generation）笔记
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Towards Agentic RAG with Deep Reasoning：论文精读
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  阅读报告：Towards Agentic RAG with Deep Reasoning
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏（Knowledge Distillation）笔记
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-nav__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Lab 科研实验日志与文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Lab 实验室科研文档与实验日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据准备阶段
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据准备阶段">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据提取
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本分割
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        向量化（embedding）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原始RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高级RAG流程
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG（Retrieval-Augmented Generation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Towards Agentic RAG with Deep Reasoning：论文精读
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--mature"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阅读报告：Towards Agentic RAG with Deep Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏（Knowledge Distillation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据准备阶段
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据准备阶段">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据提取
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文本分割
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        向量化（embedding）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原始RAG
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高级RAG流程
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>RAG</h1>
+
+<p>RAG 检索增强生成（Retrieval Augmented Generation），通过自有垂域数据库检索相关信息，然后合并成为提示模板，给大模型润色生成回答；</p>
+<p>通用的基础大模型无法完成实际业务需求的原因如下：
++ 知识的局限性：现有主流大模型的训练集是基于网络公开的数据集，对于一些实时性，非公开的或私域的数据是没有的；
++ 幻觉问题：所有的深度学习模型的底层原理都是基于<strong>数学概率</strong>，模型输出实质上是一系列数值运算，包括大模型；
++ 数据安全性；</p>
+<p><strong>RAG（中文为检索增强生成） = 检索技术 + LLM 提示</strong></p>
+<p>RAG（Retrieval-Augmented Generation）检索增强生成：先从资料库里检索相关内容 再基于这些内容来生成答案；RAG融合是一种用于（可能）提升RAG应用检索阶段的技术；</p>
+<p>为什么不每次向模型发送问题时加入产品手册？
++ 模型无法读取全部内容 超过上下文窗口
++ 模型推理成本高
++ 模型推理慢</p>
+<p>RAG就是将冗长的产品手册分成小的片段 当用户向模型提问时 会选择和用户提问相关的片段和提问一起发送给模型；</p>
+<p>RAG架构可以理解为检索 + 生成，前者是利用<strong>向量数据库</strong>的高效存储和检索能力，召回目标知识；后者则是利用<strong>大模型和Prompt工程</strong>，将召回的知识合理利用，生成目标答案。</p>
+<p>RAG的基本流程就是准备（提问前）：分片→索引；和回答（提问后）：召回→重排→生成；也可以看作两个阶段：
++ 数据准备阶段：数据提取——&gt;文本分割——&gt;向量化（embedding）——&gt;数据入库；
++ 应用阶段：用户提问——&gt;数据检索（召回）——&gt;注入Prompt——&gt;LLM生成答案；</p>
+<p><strong>分片</strong>的方式：按字数分，按段落分，按章节分，按页码分等等；
+<strong>索引</strong>就是通过Embedding将片段文本转换为向量，再将片段文本和片段向量存入向量数据库中；
+Embedding：文本转换为向量的过程；含义相近的文本他们对应的向量也是相近的；专门的Embedding模型来做；
+https://huggingface.co/spaces/mteb/
+向量数据库：用于存储和查询向量的数据库；至少有原始文本和向量两列内容；</p>
+<p>用户输入问题后 通过Embedding转换为向量 然后利用向量相似度计算公式 计算向量数据库中每个向量和用户输入问题向量的相似度 最后得出相似度最大的前几个向量；
+<strong>召回</strong>就是从所有片段中选出相似度最大的前几个向量；</p>
+<p>向量相似度计算：
++ 余弦相似度；两个向量之间的角度的余弦值
++ 欧氏距离；两个向量终点之间的距离
++ 点积；考虑方向和长度![[Pasted image 20260710205157.png]]
+判断两个向量在同一个方向努力的程度；A在B上作垂线 然后垂线的长度和B的长度作乘积；</p>
+<p><strong>重排</strong>就是在召回的结果中再选出几份和用户问题相似度最大的；
+召回和重排阶段使用的与用户问题相似度计算逻辑不同：重排一般使用cross-encoder，成本高 耗时长 准确率高；召回是计算向量相似度，成本低 耗时短 准确率低 适合初步筛选；</p>
+<p><strong>生成</strong>是大模型根据用户问题和我们选出来的参考资料来生成答案；</p>
+<h3 id="_1">数据准备阶段</h3>
+<p>一般是一个离线的过程，主要是将<strong>私域数据</strong>向量化后构建<strong>索引</strong>并存入数据库的过程；主要包括：数据提取、文本分割、向量化、数据入库等环节；</p>
+<h4 id="_2">数据提取</h4>
+<ul>
+<li>数据加载：包括多格式数据加载、不同数据源获取等，根据需要，将数据处理为同一个<strong>范式</strong>；</li>
+<li>数据处理：包括数据过滤、压缩、格式化等；</li>
+<li>元数据获取：提取数据中关键信息，例如文件名、Title、时间等；</li>
+</ul>
+<h4 id="_3">文本分割</h4>
+<p>文本分割主要考虑两个因素：
+（1）embedding模型的Tokens限制情况；
+（2）语义完整性对整体的检索效果的影响；
+常见的文本分割方式是句分割（标点符号）和固定长度分割（根据embedding模型的token长度限制，将文本分割为固定长度（如1024/512个tokens），这种切分方式会损失很多语义信息，一般通过在头尾增加一定冗余量来缓解）；</p>
+<h4 id="embedding">向量化（embedding）</h4>
+<p>向量化是一个将文本数据转化为向量矩阵的过程，该过程会直接影响到后续检索的效果；</p>
+<table>
+<thead>
+<tr>
+<th>常见的embedding模型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ChatGPT-Embedding</td>
+<td>由OpenAI公司提供，以接口形式调用</td>
+</tr>
+<tr>
+<td>ERNIE-Embedding V1</td>
+<td>由百度公司提供，依赖于文心大模型能力，以接口形式调用</td>
+</tr>
+<tr>
+<td>M3E</td>
+<td>开源Embedding模型，包含m3e-small、m3e-base、m3e-large等多个版本，支持微调和本地部署</td>
+</tr>
+<tr>
+<td>BGE</td>
+<td>由北京智源人工智能研究院发布，一款开源Embedding模型，包含了支持中文和英文的多个版本，同样支持微调和本地部署</td>
+</tr>
+<tr>
+<td>#### 数据入库</td>
+<td></td>
+</tr>
+<tr>
+<td>数据向量化后构建索引，并写入数据库的过程可以概述为数据入库过程；适用于RAG场景的数据库包括：FAISS、Chromadb、ES、milvus等；</td>
+<td></td>
+</tr>
+<tr>
+<td>### 应用阶段</td>
+<td></td>
+</tr>
+<tr>
+<td>在应用阶段，可以根据用户的提问，通过高效的检索方法，召回与提问最相关的知识，并融入Prompt；大模型参考当前提问和相关知识，生成相应的答案；关键环节包括：数据检索、注入Prompt等；</td>
+<td></td>
+</tr>
+<tr>
+<td>#### 数据检索</td>
+<td></td>
+</tr>
+<tr>
+<td>常见的数据检索方法包括：相似性检索、全文检索等，根据检索效果，一般可以选择<strong>多种检索方式融合</strong>，提升召回率；</td>
+<td></td>
+</tr>
+<tr>
+<td>+ 相似性检索：计算查询向量与所有存储向量的相似性得分，常见的相似性计算方法包括：余弦相似性、欧氏距离、曼哈顿距离等；</td>
+<td></td>
+</tr>
+<tr>
+<td>+ 全文检索：比较经典，在数据存入时，通过<strong>关键词构建倒排索引</strong>；在检索时，通过关键词进行<strong>全文检索</strong>，找到对应的记录；</td>
+<td></td>
+</tr>
+<tr>
+<td>#### 注入prompt</td>
+<td></td>
+</tr>
+<tr>
+<td>Prompt作为大模型的直接输入，是影响模型<strong>输出准确率</strong>的关键因素之一；Prompt一般包括任务描述、背景知识（检索得到）、任务指令（一般是用户提问）等，也可以在Prompt中适当加入其他指令优化大模型的输出；</td>
+<td></td>
+</tr>
+<tr>
+<td><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>text
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>【任务描述】
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>假如你是一个专业的客服机器人，请参考【背景知识】，回
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>【背景知识】
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>{content} // 数据检索得到的相关文本
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>【问题】
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>石头扫地机器人P10的续航时间是多久？
+</code></pre></div></td>
+<td></td>
+</tr>
+<tr>
+<td>Prompt的设计只有方法、没有语法，比较依赖于个人经验；</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="rag">原始RAG</h2>
+<p>RAG 管道从一个文本文档语料库开始，直接跳过如何通过数据加载器从数据源获取步骤；</p>
+<p>标准的 RAG 流程简介：将文本分块，然后使用一些 Transformer Encoder 模型将这些块嵌入到向量中，将所有向量放入索引中，最后创建一个 LLM 提示，告诉模型根据搜索步骤中找到的上下文回答用户的查询；
+运行时通过使用同一编码器模型对用户的查询进行向量化，然后搜索该查询向量的索引，找到 top-k 个结果，从数据库中检索相应的文本块，并将它们作为上下文输入到 LLM 提示中；</p>
+<p>提示工程是提升 RAG 流程性能的一种简便有效的方法；可以参考OpenAI 提供的详尽的提示工程指南，也可以使用deepseek，qwen， Anthropic 的 Claude，Mistral 的小型但功能强大的模型Mixtral，Microsoft 的Phi-2，以及如Llama2，OpenLLaMA，Falcon等众多开源模型作为 RAG 管道大脑；
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>def question_answering(context, query):
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    prompt = f&quot;&quot;&quot;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                Give the answer to the user query delimited by triple backticks ```{query}```\
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                using the information given in context delimited by triple backticks ```{context}```.\
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>                If there is no relevant information in the provided context, try to answer yourself, 
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                but tell user that you did not have any relevant context to base your answer on.
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                Be concise and output the answer of size less than 80 tokens.
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                &quot;&quot;&quot;
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    response = get_completion(instruction, prompt, model=&quot;gpt-3.5-turbo&quot;)
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    answer = response.choices[0].message[&quot;content&quot;]
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  return answer
+</code></pre></div></p>
+<h2 id="rag_1">高级RAG流程</h2>
+<ol>
+<li>分块（Chunking）&amp;向量化（Vectorisation）：为文档内容创建向量索引，在运行时搜索与查询向量余弦距离最近的向量索引，这样就可以找到与查询内容最接近语义的文档；块的大小的折衷是LLM有足够的上下文来推理，而不是足够具体的文本嵌入，以便更有效地搜索；关于块的大小，在LlamaIndex中，NodeParser 类很好支持解决这个问题，其中包含一些高级选项，例如定义自己的文本拆分器、元数据、节点/块关系等；向量化就是选择一个搜索优化的模型来嵌入块，查看 MTEB 排行榜以获取最新更新的模型；</li>
+<li>搜索索引：</li>
+<li>向量存储索引：RAG 管道的关键部分是<strong>搜索索引</strong>，它存储了在上一步中获得的向量化内容，最原始的实现是平面索引，查询向量和所有块向量之间的暴力计算距离；为了实现高效索引，搜索索引应该采用向量索引，比如 faiss、nmslib 以及 annoy，这些工具基于近似<strong>最近邻居算法</strong>，如聚类、树结构或HNSW算法；还有一些托管解决方案，如 OpenSearch、ElasticSearch 以及向量数据库，它们自动处理上面提到的数据摄取流程，例如Pinecone、Weaviate和Chroma；还可以存储元数据，使用元数据过滤器来按照日期或来源等条件进行信息检索；LlamaIndex 支持多种向量存储索引，同时也兼容其他简单的索引类型，如列表索引、树索引和关键词表索引；</li>
+<li>分层索引：在大型数据库的情况下，可以创建两个索引，一个由摘要组成另一个由文档块组成，然后分两步进行索引；</li>
+<li>假设性问题：让 LLM 为每个块生成一个<strong>问题</strong>，并将这些问题嵌入到向量中，在运行时对这个问题向量进行查询搜索，将块向量替换为索引中的问题向量，然后在检索后路由到原始文本块并将它们作为 LLM 获取答案的上下文发送；</li>
+<li>HyDE 的反向逻辑方法：要求 LLM 在给定查询的情况下生成一个<strong>假设</strong>的响应，然后将其向量与查询向量一起使用来提高搜索质量；</li>
+<li>内容增强：将<strong>相关的上下文</strong>组合起来供 LLM 推理，以检索较小的块以获得更好的搜索质量，一种方法是围绕较小的检索块的句子扩展上下文，另一种是递归的将文档拆分为多个较大的父块，其中包含较小的子块；<ul>
+<li>语句窗口检索器：此时文档中的每个句子都是单独嵌入的，这为上下文余弦距离搜索提供了极大的查询准确性，然后设置上下文窗口为检索到的句子前后的 K 个句子，然后将扩展的上下文发送到LLM；</li>
+<li>自动合并检索器（或父文档检索器)：文档被拆分为较小的子块，这些子块和较大的父块有引用关系；首先在检索过程中获取较小的块，然后如果前 k 个检索到的块中有超过 n 个块链接到同一个父节点（较大的块），将这个父节点替换成给 LLM 的上下文；<strong>搜索仅在子节点索引中执行</strong>；</li>
+</ul>
+</li>
+<li>融合检索或混合搜索：结合传统的基于关键字的搜索（稀疏检索算法，如 tf-idf 或搜索行业标准 BM25）和现代语义或向量搜索，并将其结果组合在一个检索结果中，关键是如何组合不同相似度分数的检索结果，通过 Reciprocal Rank Fusion 算法来解决，该算法有效地对检索的结果进行重新排序，已得到最终的输出结果；</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

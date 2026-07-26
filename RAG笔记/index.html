@@ -1,0 +1,3316 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ai-lab-line1.github.io/research-core/RAG%E7%AC%94%E8%AE%B0/">
+      
+      
+        <link rel="prev" href="../RAG/">
+      
+      
+        <link rel="next" href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>RAG（Retrieval-Augmented Generation）笔记 - AI Lab 科研实验日志与文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ragretrieval-augmented-generation" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-header__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Lab 科研实验日志与文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RAG（Retrieval-Augmented Generation）笔记
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI Lab 实验室科研文档与实验日志
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG（Retrieval-Augmented Generation）笔记
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Towards Agentic RAG with Deep Reasoning：论文精读
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  阅读报告：Towards Agentic RAG with Deep Reasoning
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏（Knowledge Distillation）笔记
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-nav__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Lab 科研实验日志与文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Lab 实验室科研文档与实验日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG（Retrieval-Augmented Generation）笔记
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG（Retrieval-Augmented Generation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、核心动机
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、核心动机">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 大模型的原生局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 RAG 的解决思路
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 与微调（Fine-tuning）的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、系统架构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、系统架构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 端到端流程图
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 三阶段划分
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、检索模块详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、检索模块详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-chunking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 文档分块（Chunking）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-chunk-overlap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 分块重叠（Chunk Overlap）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 向量化（Embedding）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 向量化（Embedding）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.1 常用的 Embedding 模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.2 查询与文档的编码差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 相似度度量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-retrievalrerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 召回（Retrieval）与重排（Rerank）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-hybrid-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 混合检索（Hybrid Search）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、检索质量评估
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、检索质量评估">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 检索评估指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 检索失败的典型情形
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、生成与检索的融合方式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、生成与检索的融合方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 融合方式对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Prompt 模板设计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Prompt 模板设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模板 1：基础注入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模板 2：带引用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模板 3：结构化输出
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 上下文窗口管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、RAG 评估体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、RAG 评估体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 评估维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-ragas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 RAGAS 评估框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 评估数据集
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、向量数据库选型对比
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、工程实践要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、工程实践要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 检索优化清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 检索质量控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 生产环境监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 成本优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-rag-docx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 RAG 两阶段总结（docx 版归纳）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        九、进阶技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="九、进阶技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-query-rewriting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 查询改写（Query Rewriting）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-hydehypothetical-document-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 HyDE（Hypothetical Document Embeddings）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-iterative-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 迭代检索（Iterative Retrieval）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-hierarchical-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 层次检索（Hierarchical Retrieval）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-agentic-rag-agent-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Agentic RAG（基于 Agent 的 RAG）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 多模态 RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-graph-rag-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Graph RAG（知识图谱增强 RAG）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十、局限性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十、局限性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 已知问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 部署陷阱
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 适用场景矩阵
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十一、代表性工作与论文时间线
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十一、代表性工作与论文时间线">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 经典 RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 检索增强
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 RAG 进化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 评估与分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.5 产业应用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Towards Agentic RAG with Deep Reasoning：论文精读
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--mature"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阅读报告：Towards Agentic RAG with Deep Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏（Knowledge Distillation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、核心动机
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、核心动机">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 大模型的原生局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 RAG 的解决思路
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 与微调（Fine-tuning）的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、系统架构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、系统架构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 端到端流程图
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 三阶段划分
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、检索模块详解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、检索模块详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-chunking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 文档分块（Chunking）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-chunk-overlap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 分块重叠（Chunk Overlap）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 向量化（Embedding）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 向量化（Embedding）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.1 常用的 Embedding 模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3.2 查询与文档的编码差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 相似度度量
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-retrievalrerank" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 召回（Retrieval）与重排（Rerank）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-hybrid-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 混合检索（Hybrid Search）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、检索质量评估
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、检索质量评估">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 检索评估指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 检索失败的典型情形
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、生成与检索的融合方式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、生成与检索的融合方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 融合方式对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Prompt 模板设计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Prompt 模板设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模板 1：基础注入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模板 2：带引用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模板 3：结构化输出
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 上下文窗口管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、RAG 评估体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、RAG 评估体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 评估维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-ragas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 RAGAS 评估框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 评估数据集
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、向量数据库选型对比
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、工程实践要点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、工程实践要点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 检索优化清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 检索质量控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 生产环境监控
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 成本优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-rag-docx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 RAG 两阶段总结（docx 版归纳）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        九、进阶技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="九、进阶技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-query-rewriting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 查询改写（Query Rewriting）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-hydehypothetical-document-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 HyDE（Hypothetical Document Embeddings）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-iterative-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 迭代检索（Iterative Retrieval）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-hierarchical-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 层次检索（Hierarchical Retrieval）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-agentic-rag-agent-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Agentic RAG（基于 Agent 的 RAG）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#96-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 多模态 RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#97-graph-rag-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Graph RAG（知识图谱增强 RAG）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十、局限性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十、局限性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 已知问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 部署陷阱
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 适用场景矩阵
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十一、代表性工作与论文时间线
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十一、代表性工作与论文时间线">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 经典 RAG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 检索增强
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 RAG 进化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 评估与分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#115" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.5 产业应用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ragretrieval-augmented-generation">RAG（Retrieval-Augmented Generation）笔记</h1>
+<blockquote>
+<p>检索增强生成，核心思想：<strong>在生成前引入外部知识检索，让 LLM 的回答有据可依</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="_1">目录</h2>
+<ul>
+<li><a href="#一核心动机">一、核心动机</a></li>
+<li><a href="#二系统架构">二、系统架构</a></li>
+<li><a href="#三检索模块详解">三、检索模块详解</a></li>
+<li><a href="#四检索质量评估">四、检索质量评估</a></li>
+<li><a href="#五生成与检索的融合方式">五、生成与检索的融合方式</a></li>
+<li><a href="#六rag-评估体系">六、RAG 评估体系</a></li>
+<li><a href="#七向量数据库选型对比">七、向量数据库选型对比</a></li>
+<li><a href="#八工程实践要点">八、工程实践要点</a></li>
+<li><a href="#九进阶技术">九、进阶技术</a></li>
+<li><a href="#十局限性">十、局限性</a></li>
+<li><a href="#十一代表性工作与论文时间线">十一、代表性工作与论文时间线</a></li>
+</ul>
+<hr />
+<h2 id="_2">一、核心动机</h2>
+<h3 id="11">1.1 大模型的原生局限</h3>
+<p>LLM 的参数化知识存在三个根本问题：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>表现</th>
+<th>后果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>知识截止</strong></td>
+<td>训练数据有截止日期</td>
+<td>无法回答新事件</td>
+</tr>
+<tr>
+<td><strong>幻觉</strong></td>
+<td>模型会编造事实</td>
+<td>高风险管理场景不可接受</td>
+</tr>
+<tr>
+<td><strong>数据稀疏</strong></td>
+<td>长尾知识训练不足</td>
+<td>专业领域表现差</td>
+</tr>
+<tr>
+<td><strong>上下文限制</strong></td>
+<td>模型一次能读取的内容有上限</td>
+<td>长文档/多文档场景内容被截断</td>
+</tr>
+<tr>
+<td><strong>推理成本</strong></td>
+<td>输入 token 越多，推理成本越高</td>
+<td>全量注入文档不经济</td>
+</tr>
+<tr>
+<td><strong>推理速度</strong></td>
+<td>输入越长，首 token 延迟越大</td>
+<td>实时场景响应慢</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-rag">1.2 RAG 的解决思路</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>不依赖模型「记住」所有知识，而是在每次回答前：
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  用户提问 → 从知识库检索相关文档 → 文档 + 提问 → LLM 生成回答
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                   ↑                          ↑
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>            外部知识库                    上下文增强
+</code></pre></div>
+<p><strong>关键洞察</strong>：RAG 把「记忆」从模型参数中解耦出来，放到可独立更新、可追溯来源的外部知识库中。</p>
+<h3 id="13-fine-tuning">1.3 与微调（Fine-tuning）的对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>RAG</th>
+<th>微调</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>知识更新</td>
+<td>替换索引即可</td>
+<td>重新训练</td>
+<td>RAG 秒级更新</td>
+</tr>
+<tr>
+<td>幻觉控制</td>
+<td>强（有原文约束）</td>
+<td>弱</td>
+<td>RAG 可追溯到源文档</td>
+</tr>
+<tr>
+<td>领域适配</td>
+<td>依赖语料库质量</td>
+<td>依赖标注数据</td>
+<td></td>
+</tr>
+<tr>
+<td>推理延迟</td>
+<td>增加检索时间（~50-500ms）</td>
+<td>无额外开销</td>
+<td></td>
+</tr>
+<tr>
+<td>上下文窗口</td>
+<td>受限于 LLM 上下文长度</td>
+<td>无额外开销</td>
+<td>长上下文模型降低了 RAG 的截断压力</td>
+</tr>
+<tr>
+<td>可解释性</td>
+<td>强（可展示检索到的原文）</td>
+<td>黑箱</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>实际组合使用</strong>：</p>
+<ul>
+<li>微调让模型掌握领域格式/语气/特殊指令</li>
+<li>RAG 提供具体的领域事实</li>
+</ul>
+<hr />
+<h2 id="_3">二、系统架构</h2>
+<h3 id="21">2.1 端到端流程图</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─────────────────────────────────────────────────────────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│                       RAG 完整流程                               │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├─────────────────────────────────────────────────────────────────┤
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│                                                                 │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     │
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│  │   知识库      │     │   文档分块   │     │   向量化      │     │
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│  │ (PDF/DB/Wiki)│ ──→ │ (Chunking)   │ ──→ │ (Embedding)  │     │
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│  └──────────────┘     └──────────────┘     └──────┬───────┘     │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│                                |                  │             │
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>│                                |          ┌─────────────┐       │
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>│                                |_________ │  向量数据库  │       │
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>│                                           │ (索引存储)   │       │
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>│                                           └─────┬───────┘       │
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>│                                                 │               │
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>│  ┌──────────────┐     ┌──────────────┐          │               │
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>│  │   用户查询    │ ──→ │   查询向量化  │ ────────┤                │
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>│  └──────────────┘     │ (同模型编码)  │          │               │
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>│                       └──────────────┘          │               │
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>│                                                 ▼               │
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>│                                        ┌──────────────┐         │
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>│                                        │   召 回       │        │
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>│                                        │  Top-K 粗筛   │        │
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>│                                        │ 余弦/欧氏/点积│         │
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>│                                        └──────┬───────┘         │
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>│                                               │                 │
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>│                                               ▼                 │
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>│                                        ┌──────────────┐         │
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>│                                        │   重 排       │        │
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>│                                        │ Cross-Encoder│         │
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>│                                        │ 精挑细选Top-N│          │
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>│                                        └──────┬───────┘         │
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>│                                               │                 │
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>│                                               ▼                 │
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>│  ┌──────────────┐     ┌──────────────┐                          │
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>│  │   LLM 生成    │ ←──│  Prompt 组装  │                          │
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>│  │   (生成回答)  │     │ (Query+Context)│                        │
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>│  └──────────────┘     └────────────── ┘                         │
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>│                                                                 │
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>└─────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="22">2.2 三阶段划分</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>索引阶段（Indexing）         检索阶段（Retrieval）          生成阶段（Generation）
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>───────────────────         ──────────────────            ──────────────────
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>文档清洗                       ① 召回粗筛                    上下文注入
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>分块策略                       查询向量化                     Prompt 构造
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Chunk Embedding               向量相似度匹配                  LLM 生成
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>存入向量库                     Top-K 粗筛                    输出后处理
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>（存向量 + 存原文）             余弦/欧氏/点积
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>                               │
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>                               ② 重排精筛
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>                               Cross-Encoder 逐对评分
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>                               精挑细选 Top-N
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>                               结果合并去重
+</code></pre></div>
+<blockquote>
+<p><strong>注意</strong>：索引时，文本 Embedding 变成<strong>向量</strong>后存入向量数据库，同时<strong>原始文本也会一并存储</strong>。检索时通过向量相似度找到匹配的向量，返回对应的原始文本片段——向量负责"定位"，原文负责"理解"。</p>
+</blockquote>
+<hr />
+<h2 id="_4">三、检索模块详解</h2>
+<p>检索是 RAG 的核心瓶颈。检索质量直接决定生成质量。</p>
+<h3 id="31-chunking">3.1 文档分块（Chunking）</h3>
+<p>分块大小和策略是 RAG 最重要的工程决策之一。</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>方法</th>
+<th>优势</th>
+<th>劣势</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>固定长度</strong></td>
+<td>按 token/字符数切分</td>
+<td>简单、可预测</td>
+<td>切断语义单元</td>
+<td>通用场景</td>
+</tr>
+<tr>
+<td><strong>递归分割</strong></td>
+<td>按段落→句子→子句层级回退</td>
+<td>保留语义完整性</td>
+<td>块大小不均匀</td>
+<td>结构化文档</td>
+</tr>
+<tr>
+<td><strong>语义分割</strong></td>
+<td>在语义边界处切分（如 embedding 突变点）</td>
+<td>语义完整性高</td>
+<td>计算开销大</td>
+<td>长文档</td>
+</tr>
+<tr>
+<td><strong>基于文档结构</strong></td>
+<td>按 Markdown 标题 / HTML 标签 / PDF 章节</td>
+<td>自然边界</td>
+<td>依赖格式一致性</td>
+<td>结构化内容</td>
+</tr>
+<tr>
+<td><strong>Agent 式分割</strong></td>
+<td>LLM 判断块边界</td>
+<td>质量最高</td>
+<td>慢，成本高</td>
+<td>高价值场景</td>
+</tr>
+</tbody>
+</table>
+<p><strong>经验法则</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>分块大小的权衡：
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>块太小（&lt;100 tokens）：
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  ✓ 精确匹配概率高
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  ✗ 上下文不完整，缺少全局信息
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>块太大（&gt;1000 tokens）：
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  ✓ 上下文完整
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  ✗ 噪声多，语义被稀释
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  ✗ 超过向量检索的有效区分粒度
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>常见默认：256-512 tokens，带 10-20% 的重叠（overlap）
+</code></pre></div>
+<h3 id="32-chunk-overlap">3.2 分块重叠（Chunk Overlap）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>无重叠：
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  [段落A       ] [段落B       ] [段落C       ]
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  边界处信息丢失
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>有重叠（10-25%）：
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  [段落A+           ] [段落A尾+B头+          ] [段落B尾+C头+    ]
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>                     ↑ 边界的上下文保留
+</code></pre></div>
+<ul>
+<li>重叠比例一般 10%~25%</li>
+<li>过长重叠会让向量索引中大量冗余向量，降低检索精度</li>
+</ul>
+<h3 id="33-embedding">3.3 向量化（Embedding）</h3>
+<h4 id="331-embedding">3.3.1 常用的 Embedding 模型</h4>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>维度</th>
+<th>上下文长度</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text-embedding-3-small (OpenAI)</td>
+<td>1536</td>
+<td>8191</td>
+<td>性价比高，可降维</td>
+</tr>
+<tr>
+<td>text-embedding-3-large (OpenAI)</td>
+<td>3072</td>
+<td>8191</td>
+<td>精度最高</td>
+</tr>
+<tr>
+<td>bge-large-zh-v1.5 (BAAI)</td>
+<td>1024</td>
+<td>512</td>
+<td>中文最强</td>
+</tr>
+<tr>
+<td>bge-m3 (BAAI)</td>
+<td>1024</td>
+<td>8192</td>
+<td>多语言 + 多粒度</td>
+</tr>
+<tr>
+<td>jina-embeddings-v3</td>
+<td>1024</td>
+<td>8192</td>
+<td>多语言、可任务指定</td>
+</tr>
+<tr>
+<td>gte-Qwen2 (Alibaba)</td>
+<td>4096</td>
+<td>8192</td>
+<td>开源中文 SOTA</td>
+</tr>
+<tr>
+<td>voyage-2 (VoyageAI)</td>
+<td>1024</td>
+<td>16000</td>
+<td>长上下文</td>
+</tr>
+<tr>
+<td><strong>MTEB 排行榜</strong></td>
+<td>—</td>
+<td>—</td>
+<td>选型参考：<a href="https://huggingface.co/spaces/mteb/leaderboard">https://huggingface.co/spaces/mteb/leaderboard</a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Embedding 模型选择可以参考 MTEB Leaderboard，关注分类、聚类、检索等不同任务的得分。中文场景建议额外关注 C-MTEB。选型时优先使用与检索任务匹配的模型。</p>
+</blockquote>
+<h4 id="332">3.3.2 查询与文档的编码差异</h4>
+<p>很多生产系统的经验是：查询和文档应使用不同的编码策略。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>原因：
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  - 查询短（几词到一句话），文档长（几百 token）
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  - 短文本和长文本的语义分布在 embedding 空间中不同
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>优化方案：
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  1. Query 端加前缀模板（如引号模式下 bge 的 &#39;Represent this sentence for searching relevant passages: &#39;）
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  2. 用混合检索（dense + sparse）互补
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  3. 查询改写（HyDE 见 9.2 节）将查询扩展为伪文档再检索
+</code></pre></div>
+<h3 id="34">3.4 相似度度量</h3>
+<table>
+<thead>
+<tr>
+<th>度量</th>
+<th>公式</th>
+<th>取值范围</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>余弦相似度</td>
+<td><span class="arithmatex">\(\cos(\mathbf{a}, \mathbf{b}) = \frac{\mathbf{a} \cdot \mathbf{b}}{\|\mathbf{a}\| \|\mathbf{b}\|}\)</span></td>
+<td>[-1, 1]</td>
+<td>最常用，与向量范数无关</td>
+</tr>
+<tr>
+<td>欧氏距离</td>
+<td><span class="arithmatex">\(\|\mathbf{a} - \mathbf{b}\|_2\)</span></td>
+<td>[0, ∞)</td>
+<td>向量已经 L2 归一化时与余弦等距</td>
+</tr>
+<tr>
+<td>点积</td>
+<td><span class="arithmatex">\(\mathbf{a} \cdot \mathbf{b}\)</span></td>
+<td>(-∞, ∞)</td>
+<td>向量已经归一化时等价于余弦</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>实际上，如果 Embedding 向量做了 L2 归一化，余弦相似度和点积是等价的。</p>
+</blockquote>
+<h3 id="35-retrievalrerank">3.5 召回（Retrieval）与重排（Rerank）</h3>
+<p>召回和重排是检索阶段的两步走策略，二者的核心区别在于<strong>计算方式不同</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>                    召回（Retrieval）              重排（Rerank）
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>                    ────────────────              ────────────────
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  编码方式          Bi-Encoder                    Cross-Encoder
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>                    Query 和 Doc 各自独立编码      Query 和 Doc 拼接后一起输入
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  计算方式          向量距离（余弦/欧氏/点积）      逐对交互计算评分
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  能否预先索引       ✓  可以                        ✗  不可以
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  成本              低                            高
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  速度              快                            慢
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>  准确率            低                            高
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  适用场景          海量文档快速粗筛 Top-K          少量候选精排 Top-N
+</code></pre></div>
+<p><strong>为什么"先召回再重排"而不是直接精排？</strong></p>
+<p>因为召回（Bi-Encoder）可以<strong>预先计算并索引</strong>所有文档向量，检索时只需将 Query 编码一次，通过 ANN 索引在毫秒级完成海量匹配。代价是 Query 和 Document 之间没有交互，精度有限。</p>
+<p>重排（Cross-Encoder）将 Query 和每个 Document <strong>拼接后一起编码</strong>，能捕捉词级别的精确匹配关系，精度远高于 Bi-Encoder。但<strong>无法预先索引</strong>，必须对每一对实时计算，复杂度 O(N)。因此只能在小规模候选集上操作。</p>
+<p><strong>工程实践</strong>：召回时放大 Top-K（如 K=50~100），宁可多召回一些噪声；再用 Cross-Encoder 重排精挑 Top-N（如 N=3~5）送入 LLM。常用重排模型：bge-reranker-v2-m3、Cohere Rerank、Jina Reranker。</p>
+<h3 id="36-hybrid-search">3.6 混合检索（Hybrid Search）</h3>
+<p>单一向量检索在以下场景容易失败：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>场景 1：专有名词 → &quot;CRISPR-Cas9&quot;
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  向量检索可能匹配到&quot;基因编辑&quot;（语义相似但不够精确）
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  关键词检索能精确命中&quot;CRISPR-Cas9&quot;
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>场景 2：简称/缩写 → &quot;NLP&quot;
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  向量检索可能匹配到其他领域
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  关键词检索可以配合词表
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>场景 3：高频泛化 → &quot;应用程序&quot;
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>  向量空间中被过度泛化
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>  精确匹配更有用
+</code></pre></div>
+<p><strong>混合检索策略</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>密集检索（Dense Retrieval）       稀疏检索（Sparse Retrieval）
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    │                                  │
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    │  embedding 向量 × 余弦距离        │  BM25 / TF-IDF 文本匹配
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    │                                  │
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    └──────────────┬───────────────────┘
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>                   │
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>                   ▼
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>          ┌──────────────────┐
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>          │  分数融合（Fusion）  │
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>          │                    │
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>          │  RRF 融合：         │
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>          │  score = Σ 1/(k + rank_i)    │
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>          │                    │
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>          │  ⚠️ 注意分布不一致：        │
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>          │  两套分数范围/分布完全不同    │
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>          └──────────────────┘
+</code></pre></div>
+<p><strong>RRF（Reciprocal Rank Fusion）</strong>：</p>
+<div class="arithmatex">\[
+\text{RRFScore}(d \in D) = \sum_{r \in R} \frac{1}{k + r(d)}
+\]</div>
+<ul>
+<li><span class="arithmatex">\(R\)</span> 是所有检索方法的结果集</li>
+<li><span class="arithmatex">\(r(d)\)</span> 是文档 <span class="arithmatex">\(d\)</span> 在某个检索方法中的排名</li>
+<li><span class="arithmatex">\(k\)</span> 是平滑常数（通常 60），防止排名极端</li>
+</ul>
+<hr />
+<h2 id="_5">四、检索质量评估</h2>
+<h3 id="41">4.1 检索评估指标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+<th>公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Recall@K</strong></td>
+<td>Top-K 中相关文档的比例</td>
+<td><span class="arithmatex">\(\frac{\text{相关文档在 Top-K 中的数量}}{\text{全部相关文档数}}\)</span></td>
+</tr>
+<tr>
+<td><strong>Precision@K</strong></td>
+<td>Top-K 中相关文档的比例</td>
+<td><span class="arithmatex">\(\frac{\text{相关文档在 Top-K 中的数量}}{K}\)</span></td>
+</tr>
+<tr>
+<td><strong>MRR</strong></td>
+<td>第一个相关文档的位置</td>
+<td><span class="arithmatex">\(\frac{1}{N} \sum \frac{1}{\text{rank}_i}\)</span></td>
+</tr>
+<tr>
+<td><strong>NDCG@K</strong></td>
+<td>考虑排序位置的归一化指标</td>
+<td>基于累积增益折扣</td>
+</tr>
+<tr>
+<td><strong>MAP</strong></td>
+<td>平均精度均值</td>
+<td>对所有 query 的 AP 取平均</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42">4.2 检索失败的典型情形</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Query: &quot;Transformer 自注意力机制的计算复杂度是多少？&quot;
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>检索到的 Top-5 Chunks：
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  #1  &quot;自注意力机制允许每个位置关注所有位置...&quot;      ← 语义相关但无复杂度
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  #2  &quot;Transformer 由编码器和解码器组成...&quot;          ← 完全无关
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  #3  &quot;多头注意力将 QKV 投影到多个子空间...&quot;         ← 边缘相关
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  #4  &quot;复杂度为 O(n²·d)，其中 n 是序列长度...&quot;       ← ✅ 正确答案
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>  #5  &quot;BERT 使用掩码语言模型进行预训练...&quot;            ← 完全无关
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>问题：如果 K=3，正确答案在第 4 位 → 丢失
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>解决方案：
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>  - 增大 K（但会引入更多噪声）
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>  - 优化分块策略让关键信息更靠前
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>  - 加 reranker 重新排序
+</code></pre></div>
+<hr />
+<h2 id="_6">五、生成与检索的融合方式</h2>
+<h3 id="51">5.1 融合方式对比</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>                    ┌──────────────────────────┐
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>                    │    RAG 融合方式总览        │
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>                    ├──────────────────────────┤
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>                    │                          │
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>                    │  ① 标准 RAG              │
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>                    │     检索 → 拼接 → 生成    │
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>                    │                          │
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>                    │  ② 迭代 RAG              │
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>                    │     生成 → 发现缺失 → 再检索    │
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>                    │                          │
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>                    │  ③ 可连接 RAG            │
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>                    │     LLM 自主决定是否检索  │
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>                    │                          │
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>                    │  ④ 结构化 RAG            │
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>                    │     检索结果结构化后再生成  │
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>                    │                          │
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>                    │  ⑤ 多路 RAG              │
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>                    │     从多个源头并行检索    │
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>                    │                          │
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>                    └──────────────────────────┘
+</code></pre></div>
+<h3 id="52-prompt">5.2 Prompt 模板设计</h3>
+<p>Prompt 设计对生成质量影响极大。</p>
+<h4 id="1">模板 1：基础注入</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>请基于以下文档内容来回答问题。如果你不知道答案，请直接说不知道，不要编造信息。
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>文档内容：
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>{context}
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>问题：{query}
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>回答：
+</code></pre></div>
+<h4 id="2">模板 2：带引用</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>请根据以下文档回答用户问题。在回答末尾标注信息来源编号。
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>文档：
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>[1] {chunk_1}
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>[2] {chunk_2}
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>[3] {chunk_3}
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>问题：{query}
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>回答要求：
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>- 如果文档中有相关信息，请基于文档回答并标注引用编号
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>- 如果文档中没有相关信息，请明确说 &quot;根据提供的文档，没有找到相关信息&quot;
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>- 不要混合不同来源的文档信息，除非它们互相支持
+</code></pre></div>
+<h4 id="3">模板 3：结构化输出</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>你是一个问答助手。你的任务是：
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>1. 阅读以下文档片段
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>2. 回答用户的问题
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>3. 你的回答需要包含 &quot;答案&quot; 和 &quot;引用来源&quot; 两个部分
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>文档：
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>{context}
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>问题：{query}
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>按以下 JSON 格式输出：
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>{
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>  &quot;answer&quot;: &quot;你的回答&quot;,
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>  &quot;confidence&quot;: &quot;high/medium/low&quot;,
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>  &quot;sources&quot;: [&quot;来源1&quot;, &quot;来源2&quot;]
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>}
+</code></pre></div>
+<h3 id="53">5.3 上下文窗口管理</h3>
+<p>长上下文模型（GPT-4-128K, Claude-100K, Gemini-1M）改变了 RAG 的工程决策：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>短上下文模型时代（~4K tokens）：
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  - 必须精心挑选 Top-K
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  - K 值受限（通常 3-5）
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>  - chunk 大小受限（~512 tokens）
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>长上下文模型时代（128K-1M tokens）：
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>  - 可以注入更多 chunk（K=20+, 甚至全量注入）
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>  - 检索作为「排序」而非「筛选」
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>  - 仍然需要注意：中间信息丢失（Lost in the Middle）
+</code></pre></div>
+<p><strong>Lost in the Middle 问题</strong>（Liu et al., 2023）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>模型对上下文不同位置的关注度：
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>位置：   开头 ██████████░░░░░░░░░░░░░░▒▒▒▒▒▒███ 结尾
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>准确率： 高                             下降      略有回升
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>        ↑                                ↑        ↑
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>      Primacy Effect               Recency Effect
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>结论：最相关的文档放在开头和结尾，中间放次要文档。
+</code></pre></div>
+<hr />
+<h2 id="rag">六、RAG 评估体系</h2>
+<h3 id="61">6.1 评估维度</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>RAG 系统评估 = 检索质量 + 生成质量 + 端到端质量
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>检索质量：
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>  ├── Recall@K / Precision@K
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>  ├── MRR / NDCG
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>  └── 检索延迟（P50/P99）
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>生成质量：
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>  ├── 忠实度（Faithfulness）— 答案是否忠于检索结果
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>  ├── 答案相关性（Answer Relevancy）
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>  └── 幻觉率（Hallucination Rate）
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>端到端质量：
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>  ├── 正确率（Accuracy）
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>  ├── 完整度（Comprehensiveness）
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>  └── 用户体验指标（如 Task Success Rate）
+</code></pre></div>
+<h3 id="62-ragas">6.2 RAGAS 评估框架</h3>
+<p>RAGAS（RAG Assessment）提出了三个核心指标：</p>
+<div class="arithmatex">\[
+\text{Faithfulness} = \frac{\text{从检索文档中可支持的陈述数}}{\text{总陈述数}}
+\]</div>
+<div class="arithmatex">\[
+\text{Answer Relevancy} = \frac{1}{|G|} \sum_{g \in G} \cos(\mathbf{e}_q, \mathbf{e}_g)
+\]</div>
+<p>其中 <span class="arithmatex">\(G\)</span> 是根据答案逆向生成的问题集合。</p>
+<div class="arithmatex">\[
+\text{Context Precision} = \frac{\sum_{k=1}^K (\text{Precision@k} \times v_k)}{\text{总的} top-K \text{中文档数}}
+\]</div>
+<p>其中 <span class="arithmatex">\(v_k\)</span> 表示第 <span class="arithmatex">\(k\)</span> 个文档是否相关。</p>
+<h3 id="63">6.3 评估数据集</h3>
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>来源</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>KILT</strong></td>
+<td>Wikipedia</td>
+<td>知识密集型任务</td>
+</tr>
+<tr>
+<td><strong>Natural Questions</strong></td>
+<td>Google Search</td>
+<td>开放域 QA</td>
+</tr>
+<tr>
+<td><strong>TriviaQA</strong></td>
+<td>Trivia 网站</td>
+<td>事实性问答</td>
+</tr>
+<tr>
+<td><strong>HotpotQA</strong></td>
+<td>Wikipedia</td>
+<td>多跳推理</td>
+</tr>
+<tr>
+<td><strong>2WikiMultihop</strong></td>
+<td>Wikipedia</td>
+<td>多跳推理</td>
+</tr>
+<tr>
+<td><strong>QAMPARI</strong></td>
+<td>Wikipedia</td>
+<td>多实体问答</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_7">七、向量数据库选型对比</h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Pinecone</th>
+<th>Weaviate</th>
+<th>Qdrant</th>
+<th>Milvus</th>
+<th>Chroma</th>
+<th>FAISS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>部署方式</td>
+<td>SaaS</td>
+<td>自托管/SaaS</td>
+<td>自托管/SaaS</td>
+<td>自托管/SaaS</td>
+<td>嵌入式</td>
+<td>库</td>
+</tr>
+<tr>
+<td>索引类型</td>
+<td>专有</td>
+<td>HNSW</td>
+<td>HNSW</td>
+<td>IVF/HNSW</td>
+<td>HNSW</td>
+<td>IVF/HNSW</td>
+</tr>
+<tr>
+<td>标量过滤</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>混合检索</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>分布式</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Python 生态</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>多模态</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>社区活跃度</td>
+<td>高</td>
+<td>高</td>
+<td>高</td>
+<td>高</td>
+<td>中</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>小型项目（&lt; 1M 向量）直接使用 FAISS + Pickle 存储即可，不需要引入额外的数据库服务。</p>
+</blockquote>
+<hr />
+<h2 id="_8">八、工程实践要点</h2>
+<h3 id="81">8.1 检索优化清单</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>□ 分块策略合理（文档结构 + 语义分割）
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>□ 分块重叠 10-25%
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>□ Top-K 值合理（5-15 根据上下文长度调整）
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>□ 混合检索（Dense + Sparse + RRF 融合）
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>□ 查询改写/扩展（减少 Query-Document 语义鸿沟）
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>□ Reranker 二次排序（减少 Top-K 噪声）
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>□ 去重过滤（相似 chunk 只保留一个）
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>□ 考虑时效性（时间衰减权重）
+</code></pre></div>
+<h3 id="82">8.2 检索质量控制</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>检索失败（Retrieval Failure）：
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  - 原因：Query 和文档语义不对齐
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  - 缓解：查询改写（HyDE）、多路检索
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>上下文溢出（Context Overflow）：
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  - 原因：检索结果太多淹没关键信息
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  - 缓解：Reranker、精排、自适应 K 值
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>信息冗余（Information Redundancy）：
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>  - 原因：多个 chunk 包含相同内容
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>  - 缓解：相似度阈值去重、MMR（最大边际相关性）
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>知识冲突（Knowledge Conflict）：
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>  - 原因：检索到矛盾信息
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>  - 缓解：置信度评分、多数投票、LLM 评判
+</code></pre></div>
+<h3 id="83">8.3 生产环境监控</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>关键监控指标：
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>检索层：
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>  - 检索延迟 P50/P99
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>  - 检索召回率（抽样评估）
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>  - 无结果率（Empty Response Rate）
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>生成层：
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>  - 忠实度评分（定期人工抽样）
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>  - Answer Relevancy 评分
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>  - 用户反馈（Thumbs up/down）
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>系统层：
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>  - 向量数据库连接状态
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>  - Embedding API 调用量/错误率
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>  - LLM API 成本
+</code></pre></div>
+<h3 id="84">8.4 成本优化</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Embedding 成本：
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>  - 索引阶段：一次性，考虑用本地开源模型
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>  - 检索阶段：每次查询都调用，可缓存高频 Query
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>向量数据库成本：
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>  - 小数据集：FAISS + 文件存储（免费）
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>  - 中数据集：单机 Qdrant/Milvus
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>  - 大数据集：分布式 + 分片
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>LLM 成本：
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>  - 上下文越长 cost 越高
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>  - 控制注入的 chunk 数量和质量
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>  - 考虑用小模型做首轮过滤
+</code></pre></div>
+<h3 id="85-rag-docx">8.5 RAG 两阶段总结（docx 版归纳）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>┌─────────────────────────────────────────────────────────┐
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>│                    RAG 完整流程链                         │
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>├─────────────────────────────────────────────────────────┤
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>│                                                         │
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>│  准备部分：分片 + 索引 —— 知识库构建                      │
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>│                                                         │
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>│    原始数据 ──→ 分片（Chunking）──→ 向量化（Embedding）    │
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>│                                            │            │
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>│                                            ▼            │
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>│                                      ┌──────────┐       │
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>│                                      │ 向量数据库 │       │
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>│                                      │ 向量 + 原文│       │
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>│                                      └──────────┘       │
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>│                                                         │
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>│  回答部分：召回 + 重排 + 生成 —— 在线推理                 │
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>│                                                         │
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>│    用户问题 ──→ 问题向量化 ──→ 召回（Top-K 粗筛）         │
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>│                                    │                    │
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>│                                    ▼                    │
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>│                              重排（Cross-Encoder 精排）  │
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>│                                    │                    │
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>│                                    ▼                    │
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a>│                          Top-N 结果 + 问题 ──→ LLM 生成  │
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a>└─────────────────────────────────────────────────────────┘
+</code></pre></div>
+<hr />
+<h2 id="_9">九、进阶技术</h2>
+<h3 id="91-query-rewriting">9.1 查询改写（Query Rewriting）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>用户原始查询往往不适合直接用于向量检索：
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>  用户： &quot;DeepSeek 和 Claude 比起来怎么样&quot;
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>  改写： &quot;DeepSeek vs Claude 模型对比分析 性能 价格 能力&quot;
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>改写方法：
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>  1. LLM 改写（成本高但质量好）
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>  2. 规则改写（同义词替换、关键词提取）
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>  3. 多查询扩展（生成多个不同的检索 Query）
+</code></pre></div>
+<h3 id="92-hydehypothetical-document-embeddings">9.2 HyDE（Hypothetical Document Embeddings）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>核心思想：不直接检索查询，而是先用 LLM 生成一个假设性的理想文档，
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>然后用这个伪文档的 embedding 去检索真实文档。
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>流程：
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>  Query: &quot;深度学习模型压缩的主要方法有哪些？&quot;
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>    ↓
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>  LLM 生成伪文档: &quot;深度学习模型压缩包括知识蒸馏、量化...&quot;
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>    ↓
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>  用伪文档的 embedding 查询向量库
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>    ↓
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>  找到最相似的真实文档
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>优势：
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>  - 拉近 Query 和 Document 的 embedding 分布
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>  - 特别适合 Query 很短但文档很长的场景
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a>劣势：
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a>  - 增加一次 LLM 调用
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a>  - 伪文档的质量依赖 LLM
+</code></pre></div>
+<h3 id="93-iterative-retrieval">9.3 迭代检索（Iterative Retrieval）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>单次检索的局限性：
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>  - 多跳问题需要多次检索
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>  - 第一次检索结果可能不足以回答问题
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>迭代检索流程（Self-Ask / Step-Back）：
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>  Q: &quot;Transformer 在哪些 NLP 任务上表现最突出？&quot;
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>    ↓
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>  检索 #1: &quot;Transformer 架构...&quot;
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>    → 未找到具体 task 列表
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>    ↓
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>  模型发现信息不足，生成子查询
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>    ↓
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>  子查询: &quot;Transformer 在机器翻译和文本分类上的表现&quot;
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>    ↓
+<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>  检索 #2: &quot;...在 WMT 翻译任务上 BLEU 提升 4.2...&quot;
+<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>    → 获取到具体任务表现
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>    ↓
+<a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a>  生成最终回答
+</code></pre></div>
+<h3 id="94-hierarchical-retrieval">9.4 层次检索（Hierarchical Retrieval）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>适用于长文档的场景：
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>文档层级：
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>  Chapter 1 ──────→ Section 1.1 ──→ Paragraph A ──→ Sentence 1
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>       │                 │               │
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>   摘要向量           段落向量         句子向量
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>   (粗粒度)          (中粒度)         (精粒度)
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>检索策略：
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>  1. 粗检索：在摘要层面找到相关章节
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>  2. 细检索：在相关章节内搜索段落
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>  3. 精检索：返回最相关的段落
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>优势：
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>  - 减少全局搜索空间
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>  - 保留层级上下文
+</code></pre></div>
+<h3 id="95-agentic-rag-agent-rag">9.5 Agentic RAG（基于 Agent 的 RAG）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>不再是被动的&quot;检索→生成&quot;线性流程，而是让 LLM Agent
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>自主决定何时检索、检索什么、如何组合信息。
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>典型工具箱：
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>  RAG Agent
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>  ├── Tools:
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>  │   ● Web Search        — 实时信息
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>  │   ● Vector Search     — 内部知识库
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>  │   ● SQL Query         — 结构化数据
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>  │   ● Code Interpreter  — 计算结果
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>  │   ● Read PDF          — 单文档精读
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>  └──
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>工作流示例：
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>  Q: &quot;对比 2024 年 Q1 和 Q2 的销售数据，分析增长最大的产品线。&quot;
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>  Agent 的思考链：
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>    1. &quot;需要销售数据&quot; → 调用 SQL Query 获取结构化数据
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>    2. &quot;需要了解产品线定义&quot; → 调用 Vector Search 查询产品文档
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>    3. &quot;计算增长率&quot; → 用 Code Interpreter 做计算
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>    4. &quot;需要行业背景&quot; → 调用 Web Search 搜索行业报告
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>    5. &quot;生成综合分析报告&quot;
+</code></pre></div>
+<h3 id="96-rag">9.6 多模态 RAG</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>不仅检索文本，还检索图像、表格、代码等。
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>Pipeline：
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>  Query: &quot;ResNet 的结构图是怎样的？&quot;
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    ↓
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>  多模态 Embedding 检索文本 + 图片
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>    ↓
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>  检索结果：
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>    [1] &quot;ResNet 引入了残差连接...&quot;              ← 文本
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>    [2] [ResNet 架构图]                        ← 图片
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>    [3] &quot;ResNet-50 各层参数数量表&quot;              ← 表格
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>    ↓
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>  多模态输入 → 多模态模型生成回答（含图文）
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>关键挑战：
+<a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a>  - 不同模态的统一表示
+<a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a>  - 跨模态对齐
+<a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a>  - 多模态结果的排序和融合
+</code></pre></div>
+<h3 id="97-graph-rag-rag">9.7 Graph RAG（知识图谱增强 RAG）</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>传统向量检索的局限：每个 chunk 独立编码，丢失了文档之间的结构关系和跨文档关联。
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>Graph RAG 在向量检索之外，引入图结构来组织知识：
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>知识图谱构建：
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>  原始文档 ──→ 实体抽取（LLM/NER）──→ 关系抽取 ──→ 图谱构建
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>                    ↓                          ↓
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>              节点（实体）                  边（关系）
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>                    ↓                          ↓
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>              实体 Embedding              关系类型编码
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>
+<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>检索流程：
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>  Query: &quot;Transformer 的发明对哪些后续模型产生了影响？&quot;
+<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>
+<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>  ① 向量检索找到相关文档 chunk（传统 RAG）
+<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>  ② 从 chunk 中提取关键实体 → 在图谱中定位节点
+<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a>  ③ 图遍历：沿关系边扩展（一跳、两跳...）
+<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a>  ④ 汇总路径上的相关信息
+<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a>  ⑤ 将图结构信息 + 检索结果一并送入 LLM
+<a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>
+<a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a>  示例遍历：
+<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>    Transformer ──[启发]──→ BERT
+<a id="__codelineno-28-23" name="__codelineno-28-23" href="#__codelineno-28-23"></a>       │                      │
+<a id="__codelineno-28-24" name="__codelineno-28-24" href="#__codelineno-28-24"></a>       ├──[启发]──→ GPT         ├──[改进]──→ RoBERTa
+<a id="__codelineno-28-25" name="__codelineno-28-25" href="#__codelineno-28-25"></a>       │                      │
+<a id="__codelineno-28-26" name="__codelineno-28-26" href="#__codelineno-28-26"></a>       └──[改进]──→ ViT        └──[改进]──→ ALBERT
+<a id="__codelineno-28-27" name="__codelineno-28-27" href="#__codelineno-28-27"></a>
+<a id="__codelineno-28-28" name="__codelineno-28-28" href="#__codelineno-28-28"></a>  → LLM 不仅看到 Transformer 本身，还能看到完整的演化关系链
+<a id="__codelineno-28-29" name="__codelineno-28-29" href="#__codelineno-28-29"></a>
+<a id="__codelineno-28-30" name="__codelineno-28-30" href="#__codelineno-28-30"></a>主要优势：
+<a id="__codelineno-28-31" name="__codelineno-28-31" href="#__codelineno-28-31"></a>  - 多跳推理：沿关系路径连接分散的知识（传统 RAG 容易漏掉跨跳关联）
+<a id="__codelineno-28-32" name="__codelineno-28-32" href="#__codelineno-28-32"></a>  - 关系感知：不仅是语义相似，还知道实体之间的具体关系类型（因果/继承/对比）
+<a id="__codelineno-28-33" name="__codelineno-28-33" href="#__codelineno-28-33"></a>  - 结构化约束：图谱可以施加领域知识约束（如&quot;只考虑药物-疾病治疗关系&quot;）
+<a id="__codelineno-28-34" name="__codelineno-28-34" href="#__codelineno-28-34"></a>  - 可解释性：检索路径可视，回答来源可追溯
+<a id="__codelineno-28-35" name="__codelineno-28-35" href="#__codelineno-28-35"></a>
+<a id="__codelineno-28-36" name="__codelineno-28-36" href="#__codelineno-28-36"></a>主要方法：
+<a id="__codelineno-28-37" name="__codelineno-28-37" href="#__codelineno-28-37"></a>  ┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-28-38" name="__codelineno-28-38" href="#__codelineno-28-38"></a>  │ 方法              │ 核心思路                       │ 代表作     │
+<a id="__codelineno-28-39" name="__codelineno-28-39" href="#__codelineno-28-39"></a>  ├─────────────────────────────────────────────────────────────┤
+<a id="__codelineno-28-40" name="__codelineno-28-40" href="#__codelineno-28-40"></a>  │ KG + RAG          │ 用知识图谱补充向量检索          │ KnowledGPT │
+<a id="__codelineno-28-41" name="__codelineno-28-41" href="#__codelineno-28-41"></a>  │ Graph RAG         │ 图谱索引 + 社区摘要            │ Microsoft  │
+<a id="__codelineno-28-42" name="__codelineno-28-42" href="#__codelineno-28-42"></a>  │ GRAG              │ 图结构检索 + 关系约束          │ 2024       │
+<a id="__codelineno-28-43" name="__codelineno-28-43" href="#__codelineno-28-43"></a>  │ LightRAG          │ 轻量级图 RAG，增量更新         │ 2024       │
+<a id="__codelineno-28-44" name="__codelineno-28-44" href="#__codelineno-28-44"></a>  │ HybrID RAG        │ 向量 + 图谱双通道融合          │            │
+<a id="__codelineno-28-45" name="__codelineno-28-45" href="#__codelineno-28-45"></a>  └─────────────────────────────────────────────────────────────┘
+<a id="__codelineno-28-46" name="__codelineno-28-46" href="#__codelineno-28-46"></a>
+<a id="__codelineno-28-47" name="__codelineno-28-47" href="#__codelineno-28-47"></a>挑战：
+<a id="__codelineno-28-48" name="__codelineno-28-48" href="#__codelineno-28-48"></a>  - 实体抽取的质量直接影响图谱质量（错误传播）
+<a id="__codelineno-28-49" name="__codelineno-28-49" href="#__codelineno-28-49"></a>  - 图遍历的开销随深度指数增长
+<a id="__codelineno-28-50" name="__codelineno-28-50" href="#__codelineno-28-50"></a>  - 动态更新图谱比更新向量库更复杂
+<a id="__codelineno-28-51" name="__codelineno-28-51" href="#__codelineno-28-51"></a>  - 复杂长尾关系难以完整覆盖
+<a id="__codelineno-28-52" name="__codelineno-28-52" href="#__codelineno-28-52"></a>
+<a id="__codelineno-28-53" name="__codelineno-28-53" href="#__codelineno-28-53"></a>适用场景：
+<a id="__codelineno-28-54" name="__codelineno-28-54" href="#__codelineno-28-54"></a>  - 多跳推理问题（科研文献追溯、法律条款推导）
+<a id="__codelineno-28-55" name="__codelineno-28-55" href="#__codelineno-28-55"></a>  - 强关系型知识（药物-靶点、供应链、组织架构）
+<a id="__codelineno-28-56" name="__codelineno-28-56" href="#__codelineno-28-56"></a>  - 需要结构化可追溯回答的场景
+</code></pre></div>
+<hr />
+<h2 id="_10">十、局限性</h2>
+<h3 id="101">10.1 已知问题</h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>表现</th>
+<th>缓解方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>检索失败</strong></td>
+<td>相关文档没找到</td>
+<td>查询改写、多路检索</td>
+</tr>
+<tr>
+<td><strong>上下文注入偏差</strong></td>
+<td>LLM 过度依赖或不依赖上下文</td>
+<td>精心设计 Prompt</td>
+</tr>
+<tr>
+<td><strong>信息冗余</strong></td>
+<td>多个 chunk 信息重复</td>
+<td>MMR 去重、压缩</td>
+</tr>
+<tr>
+<td><strong>知识冲突</strong></td>
+<td>检索结果之间矛盾</td>
+<td>置信度评分、多数裁决</td>
+</tr>
+<tr>
+<td><strong>时效性问题</strong></td>
+<td>索引中的知识过期</td>
+<td>定期更新索引</td>
+</tr>
+<tr>
+<td><strong>长尾实体</strong></td>
+<td>低频实体 embedding 质量差</td>
+<td>实体链接、知识图谱融合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102">10.2 部署陷阱</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>陷阱 1：Embedding 模型不一致
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>  索引时用 text-embedding-3-small，检索时用 bge-large
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>  → 向量空间不匹配，检索质量断崖下降
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>陷阱 2：分块策略与检索策略不匹配
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>  分块 2000 tokens 但用精确匹配检索
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>  → 核心信息被淹没在大量噪声中
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>陷阱 3：忽略元数据过滤
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>  所有知识放到同一个集合中，没有按时间/类型/来源过滤
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>  → 过时信息影响回答质量
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>陷阱 4：不做 Prompt 保护
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>  检索到的内容可能包含恶意指令
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>  → 需要上下文消毒（sanitize）
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a>
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a>陷阱 5：不做空结果处理
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a>  检索结果为 0 时，LLM 还是会被要求&quot;基于文档回答&quot;
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a>  → 要么幻觉，要么无回答，应该优雅降级
+</code></pre></div>
+<h3 id="103">10.3 适用场景矩阵</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>                    RAG 适用性对比
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>               强烈推荐             有条件使用         不推荐
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>实时知识更新    ✅ 新闻/政策        ✅ 周更新数据
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>长尾专业领域    ✅ 法律/医疗文档    ✅ 内部知识库
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>高可解释性      ✅ 合规/金融        ✅ 客服系统
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>大规模知识库    ✅ 万级以上文档      ✅ 千级文档
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>                                  ❌ 百级文档 → 直接注入 Prompt
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>纯创意生成      ❌ 写诗/故事        ❌ RAG 不适合发散性创作
+<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>高频低延迟      ❌ 毫秒级要求        ✅ 可以预缓存热点查询
+</code></pre></div>
+<hr />
+<h2 id="_11">十一、代表性工作与论文时间线</h2>
+<h3 id="111-rag">11.1 经典 RAG</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>2020 ─── REALM ─── &quot;Retrieval-Augmented Language Model Pre-Training&quot;
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>            └── 首次将检索集成到 LM 预训练中（掩码预测 + 检索）
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>            └── 知时检索器 + 生成器联合训练
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>2020 ─── RAG ─── &quot;Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks&quot;
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>            └── Lewis et al., 奠基之作
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>            └── DPR 检索 + BART 生成
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>            └── 两种模式：RAG-Token（每 token 检索）vs RAG-Sequence（整序列检索）
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>2021 ─── FiD ─── &quot;Leveraging Passage Retrieval with Generative Models for Open Domain QA&quot;
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>            └── 编码每个文档独立编码，解码时融合
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>            └── 有效处理大量检索结果
+</code></pre></div>
+<h3 id="112">11.2 检索增强</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>2020 ─── DPR ─── &quot;Dense Passage Retrieval for Open-Domain Question Answering&quot;
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>            └── Karpukhin et al.
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>            └── 双编码器（Bi-Encoder）：Query Encoder + Document Encoder
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>            └── 对比学习训练检索器
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>2021 ─── ColBERT ─── &quot;ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction&quot;
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>            └── 延迟交互（Late Interaction）：query 和 doc 各自编码，最后做细粒度匹配
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>            └── 兼顾交叉编码的精度和双编码的速度
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>2022 ─── Contriever ─── &quot;Unsupervised Dense Retrieval Training&quot;
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>            └── 无监督训练检索器（对比学习 + 数据增强）
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>            └── 不需要标注的 Query-Document 对
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>2023 ─── BGE ─── &quot;BAAI General Embedding&quot;
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>            └── BAAI 开源的中文 embedding 模型系列
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>            └── 统一文本表征 + 任务特定前缀
+</code></pre></div>
+<h3 id="113-rag">11.3 RAG 进化</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>2023 ─── Self-RAG ─── &quot;Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection&quot;
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>            └── 模型自我判断：是否需要检索、检索结果是否相关、回复是否充分
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>            └── Reflection Tokens（反思标记）训练
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>2023 ─── RAPTOR ─── &quot;RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval&quot;
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>            └── 对文档递归摘要构建树结构
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>            └── 不同层级检索（从细粒度到粗粒度）
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>2024 ─── CRAG ─── &quot;Corrective Retrieval Augmented Generation&quot;
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>            └── 检索质量评估 → 根据质量决定：直接生成 / 修正检索 / 丢弃
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>            └── 引入 Web Search 作为兜底
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>2024 ─── RAG-Fusion ─── &quot;RAG-Fusion: A New Take on Retrieval-Augmented Generation&quot;
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>            └── 多查询生成 + RRF 融合
+<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>            └── 变体：Recursive RAG-Fusion（递归查询扩展）
+<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>
+<a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a>2024 ─── GRAG ─── &quot;Graph-based Retrieval-Augmented Generation&quot;
+<a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a>            └── 用图结构组织知识（实体 + 关系）
+<a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a>            └── 多跳推理和关系感知检索
+</code></pre></div>
+<h3 id="114">11.4 评估与分析</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>2023 ─── RAGAS ─── &quot;RAGAS: Automated Evaluation of Retrieval Augmented Generation&quot;
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>            └── 自动评估框架：忠实度 + 答案相关性 + 上下文精度
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>2023 ─── RGB ─── &quot;RGB: A Benchmark for Evaluating Retrieval-Augmented Generation&quot;
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>            └── 标准评估基准
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>2024 ─── ARES ─── &quot;ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems&quot;
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>            └── LLM-as-Judge 评估 + 合成数据训练
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>2024 ─── KDD 2024 Tutorial ─── &quot;RAG in Practice: Lessons Learned from Production Deployments&quot;
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>            └── 生产环境 RAG 的最佳实践总结
+</code></pre></div>
+<h3 id="115">11.5 产业应用</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>2023 ─── Bing Chat / Microsoft Copilot ─── 大规模 RAG 系统
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>            └── Web 搜索 + LLM 生成的首次大规模融合
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>2023 ─── LlamaIndex ─── 数据框架（Data Framework for LLM）
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>            └── 数据连接器 + 索引 + 查询引擎
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>            └── 支持各种数据源和检索策略
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>2023 ─── LangChain ─── RAG 生态的核心框架
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>            └── Document Loaders → Text Splitters → Vectorstores → Retrievers → LLM Chains
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>2024 ─── Dify ─── 开源 RAG 平台
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>            └── 可视化编排 RAG 应用
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a>            └── 支持多模型、多知识库、多检索策略
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a>2024 ─── Cohere RAG ─── 企业级 RAG API
+<a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>            └── 端到端托管服务
+<a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a>            └── 内置 reranker、引用生成
+<a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a>---
+<a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a>
+<a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a>## 附录：常用指标速查
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a>
+<a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a>```text
+<a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a>RAG 系统规划检查清单：
+<a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a>
+<a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a>知识库：
+<a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a>  □ 总文档数
+<a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a>  □ 文档格式（PDF/MD/HTML/DB/...）
+<a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a>  □ 更新频率（实时/每日/每周/静态）
+<a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a>  □ 是否需要多模态（图/表/代码）
+<a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a>
+<a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a>分块策略：
+<a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a>  □ 块大小（__ tokens）
+<a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a>  □ 重叠比例（__ %）
+<a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a>  □ 分块策略（固定/语义/递归/结构）
+<a id="__codelineno-35-35" name="__codelineno-35-35" href="#__codelineno-35-35"></a>
+<a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a>向量化：
+<a id="__codelineno-35-37" name="__codelineno-35-37" href="#__codelineno-35-37"></a>  □ Embedding 模型
+<a id="__codelineno-35-38" name="__codelineno-35-38" href="#__codelineno-35-38"></a>  □ 向量维度
+<a id="__codelineno-35-39" name="__codelineno-35-39" href="#__codelineno-35-39"></a>  □ 是否 L2 归一化
+<a id="__codelineno-35-40" name="__codelineno-35-40" href="#__codelineno-35-40"></a>  □ 是否降维
+<a id="__codelineno-35-41" name="__codelineno-35-41" href="#__codelineno-35-41"></a>
+<a id="__codelineno-35-42" name="__codelineno-35-42" href="#__codelineno-35-42"></a>检索策略：
+<a id="__codelineno-35-43" name="__codelineno-35-43" href="#__codelineno-35-43"></a>  □ 检索方法（Dense / Sparse / Hybrid）
+<a id="__codelineno-35-44" name="__codelineno-35-44" href="#__codelineno-35-44"></a>  □ Top-K 值
+<a id="__codelineno-35-45" name="__codelineno-35-45" href="#__codelineno-35-45"></a>  □ 是否使用 Reranker
+<a id="__codelineno-35-46" name="__codelineno-35-46" href="#__codelineno-35-46"></a>  □ 是否查询改写/HyDE
+<a id="__codelineno-35-47" name="__codelineno-35-47" href="#__codelineno-35-47"></a>
+<a id="__codelineno-35-48" name="__codelineno-35-48" href="#__codelineno-35-48"></a>生成策略：
+<a id="__codelineno-35-49" name="__codelineno-35-49" href="#__codelineno-35-49"></a>  □ LLM 模型
+<a id="__codelineno-35-50" name="__codelineno-35-50" href="#__codelineno-35-50"></a>  □ 上下文窗口大小
+<a id="__codelineno-35-51" name="__codelineno-35-51" href="#__codelineno-35-51"></a>  □ Prompt 模板类型
+<a id="__codelineno-35-52" name="__codelineno-35-52" href="#__codelineno-35-52"></a>  □ 是否引用来源
+<a id="__codelineno-35-53" name="__codelineno-35-53" href="#__codelineno-35-53"></a>
+<a id="__codelineno-35-54" name="__codelineno-35-54" href="#__codelineno-35-54"></a>系统：
+<a id="__codelineno-35-55" name="__codelineno-35-55" href="#__codelineno-35-55"></a>  □ 向量数据库
+<a id="__codelineno-35-56" name="__codelineno-35-56" href="#__codelineno-35-56"></a>  □ 检索延迟要求（__ ms）
+<a id="__codelineno-35-57" name="__codelineno-35-57" href="#__codelineno-35-57"></a>  □ 是否多路检索
+<a id="__codelineno-35-58" name="__codelineno-35-58" href="#__codelineno-35-58"></a>  □ 监控体系是否就绪
+</code></pre></div>
+<hr />
+<blockquote>
+<p>文档生成日期：2026-07-19</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

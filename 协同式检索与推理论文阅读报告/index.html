@@ -1,0 +1,1325 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ai-lab-line1.github.io/research-core/%E5%8D%8F%E5%90%8C%E5%BC%8F%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%8E%A8%E7%90%86%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E6%8A%A5%E5%91%8A/">
+      
+      
+        <link rel="prev" href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/">
+      
+      
+        <link rel="next" href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>阅读报告：Towards Agentic RAG with Deep Reasoning - AI Lab 科研实验日志与文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#towards-agentic-rag-with-deep-reasoning" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-header__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Lab 科研实验日志与文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              阅读报告：Towards Agentic RAG with Deep Reasoning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  AI Lab 实验室科研文档与实验日志
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  RAG（Retrieval-Augmented Generation）笔记
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Towards Agentic RAG with Deep Reasoning：论文精读
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  阅读报告：Towards Agentic RAG with Deep Reasoning
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  知识蒸馏（Knowledge Distillation）笔记
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Lab 科研实验日志与文档" class="md-nav__button md-logo" aria-label="AI Lab 科研实验日志与文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Lab 科研实验日志与文档
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Lab 实验室科研文档与实验日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RAG%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG（Retrieval-Augmented Generation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Towards%20Agentic%20RAG%20with%20Deep%20Reasoning%E2%80%94%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Towards Agentic RAG with Deep Reasoning：论文精读
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--mature"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阅读报告：Towards Agentic RAG with Deep Reasoning
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阅读报告：Towards Agentic RAG with Deep Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 文章核心内容总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 文章核心内容总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        研究问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主要观点与发现
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="主要观点与发现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reasoning-enhanced-rag3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一阶段：Reasoning-Enhanced RAG（§3）— 推理增强检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-enhanced-reasoning4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二阶段：RAG-Enhanced Reasoning（§4）— 检索增强推理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synergized-rag-reasoning5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三阶段：Synergized RAG-Reasoning（§5）— 协同融合 ⭐ 本文核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心结论
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 批判性分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 批判性分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        争议点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        与自己研究的关联
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 个人思考与延伸
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 个人思考与延伸">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        对这个领域的新认识
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如果让我做下一步研究
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法迁移的思考
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F%E7%AC%94%E8%AE%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    知识蒸馏（Knowledge Distillation）笔记
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 文章核心内容总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 文章核心内容总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        研究问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主要观点与发现
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="主要观点与发现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reasoning-enhanced-rag3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一阶段：Reasoning-Enhanced RAG（§3）— 推理增强检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-enhanced-reasoning4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二阶段：RAG-Enhanced Reasoning（§4）— 检索增强推理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synergized-rag-reasoning5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三阶段：Synergized RAG-Reasoning（§5）— 协同融合 ⭐ 本文核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心结论
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 批判性分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 批判性分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        争议点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        与自己研究的关联
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 个人思考与延伸
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 个人思考与延伸">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        对这个领域的新认识
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如果让我做下一步研究
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法迁移的思考
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="towards-agentic-rag-with-deep-reasoning">阅读报告：Towards Agentic RAG with Deep Reasoning</h1>
+<h2 id="1">1. 基本信息</h2>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>标题</strong></td>
+<td>Towards Agentic RAG with Deep Reasoning: A Survey of RAG-Reasoning Systems in LLMs</td>
+</tr>
+<tr>
+<td><strong>作者</strong></td>
+<td>Yangning Li（清华）、Weizhi Zhang（UIC）、Yuyao Yang（UIC）等 20 位作者，来自清华、UIC、东京大学、北大、UIUC、UCLA、HKUST</td>
+</tr>
+<tr>
+<td><strong>发表</strong></td>
+<td>arXiv:2507.09477v2, 2025 年 7 月</td>
+</tr>
+<tr>
+<td><strong>资源</strong></td>
+<td>https://github.com/DavidZWZ/Awesome-RAG-Reasoning</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>一句话概括：</strong> 本文系统综述了检索增强生成（RAG）与深度推理如何从单向增强走向协同融合（Agentic RAG-Reasoning），揭示了二者从"各管一段"到"迭代互促"的范式转变，并以"Deep Research"类产品作为这一融合的最新实证。</p>
+</blockquote>
+<hr />
+<h2 id="2">2. 文章核心内容总结</h2>
+<h3 id="_1">研究问题</h3>
+<p>LLM 存在两个根本局限：<strong>知识幻觉</strong>（参数化静态存储导致的事实错误）和<strong>复杂推理困难</strong>。RAG 解决前者，推理增强方法解决后者，但二者各自为政时都无法独立应对需要"检索+推理"深度交织的真实问题（如开放域 QA、科学发现）。作者想回答的核心问题是：<strong>检索与推理如何从两条独立的技术路线走向深度融合？</strong></p>
+<h3 id="_2">主要观点与发现</h3>
+<p>作者将 RAG-Reasoning 的发展梳理为三个演变阶段：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>第一阶段：Reasoning → RAG        （推理帮检索的忙，单向）
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>第二阶段：RAG → Reasoning         （检索帮推理的忙，单向）
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>第三阶段：RAG ⇔ Reasoning         （二者互相驱动，迭代闭环）
+</code></pre></div>
+<h4 id="reasoning-enhanced-rag3">第一阶段：Reasoning-Enhanced RAG（§3）— 推理增强检索</h4>
+<p>推理被用来优化 RAG 管道的每个环节：</p>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>方法举例</th>
+<th>核心思路</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>检索优化</strong>（§3.1）</td>
+<td>DynQR / PAR-RAG / GNN-RAG</td>
+<td>用推理做查询分解/改写、做检索策略规划、用GNN增强检索模型</td>
+</tr>
+<tr>
+<td><strong>整合增强</strong>（§3.2）</td>
+<td>SEER / BeamAggR / DualRAG</td>
+<td>用推理评估文档相关性并去噪、多源证据融合</td>
+</tr>
+<tr>
+<td><strong>生成增强</strong>（§3.3）</td>
+<td>Self-RAG / RARR / TRACE / AlignRAG</td>
+<td>用Chain-of-Verification保证输出忠实于检索内容</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>局限：</strong> 推理只是 RAG 流程中的一个辅助环节，不反过来触发新的检索。</p>
+</blockquote>
+<h4 id="rag-enhanced-reasoning4">第二阶段：RAG-Enhanced Reasoning（§4）— 检索增强推理</h4>
+<p>反过来，检索被用来为推理补全"缺失的前提"：</p>
+<ul>
+<li>
+<p><strong>外部知识检索</strong>（§4.1）</p>
+</li>
+<li>
+<p>知识库：法律先例（CASEGPT）、数学引理（ReaRAG）、代码片段（CodeRAG）</p>
+</li>
+<li>Web 检索：事实核查（VeraCT Scan）、开放域 QA（MindSearch）</li>
+<li>工具调用：计算器（ToolkenGPT）、WolframAlpha（SCIAGENT）、API（Re-Invoke）</li>
+<li>
+<p><strong>上下文内检索</strong>（§4.2）</p>
+</li>
+<li>
+<p>历史经验：机器人路径规划（RAHL）、多模态交互记忆（JARVIS-1）</p>
+</li>
+<li>示例/训练数据：ICL 示例选取（UPRISE）、伪代码检索（PERC）</li>
+</ul>
+<blockquote>
+<p><strong>局限：</strong> 检索发生在推理之前或过程中，但没有动态迭代。</p>
+</blockquote>
+<h4 id="synergized-rag-reasoning5">第三阶段：Synergized RAG-Reasoning（§5）— 协同融合 ⭐ 本文核心</h4>
+<p>这才是真正的 <strong>Agentic RAG</strong>：检索和推理形成闭环，推理指导检索方向，新检索到的信息反过来修正推理轨迹。</p>
+<p>作者从两个维度展开：</p>
+<p><strong>维度一：推理工作流（§5.1）</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>链式 (Chain) → 树式 (Tree) → 图式 (Graph)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>      |               |               |
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  线性步骤间      分支探索多       在知识图谱上
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  交替检索       条推理路径       自主步行推理
+</code></pre></div>
+<ul>
+<li><strong>链式</strong>：IRCoT、Rat、CoV-RAG、RAFT — 推理步骤间插检索操作</li>
+<li><strong>树式</strong>：ToT 分支（RATT、Tree of Clarifications）、MCTS 概率搜索（AirRAG、MCTS-RAG、SeRTS）</li>
+<li><strong>图式</strong>：Walk-on-Graph（QA-GNN、LightRAG）vs. Think-on-Graph（ToG、Graph-CoT、GraphReader）</li>
+</ul>
+<p><strong>维度二：智能体编排（§5.2）</strong></p>
+<ul>
+<li><strong>单智能体</strong>：</li>
+<li><strong>Prompting</strong>：ReAct 范式（交替 Reasoning + Action）</li>
+<li><strong>SFT</strong>：Toolformer、INTERS — 在合成数据上微调搜索与推理的交替</li>
+<li><strong>RL</strong>：Search-R1、R1-Searcher、DeepResearche — 端到端学习"何时搜/搜什么/何时停"</li>
+<li><strong>多智能体</strong>：</li>
+<li><strong>去中心化</strong>：M-RAG、MDocAgent — 各智能体负责不同数据源或角色</li>
+<li><strong>中心化</strong>：HM-RAG、Chain of Agents — 分解器-检索器-决策器的分层架构</li>
+</ul>
+<h3 id="_3">核心结论</h3>
+<p>RAG 和推理的<strong>紧耦合（tight coupling）</strong>是提升 LLM 在知识密集型任务上表现的关键方向。这种协同带来了三重超越单向增强的好处：</p>
+<ol>
+<li><strong>更准确的事实锚定</strong> — 推理过程不脱离检索证据</li>
+<li><strong>更一致的逻辑推理</strong> — 检索为推理补充缺失前提</li>
+<li><strong>更强的任务适应性</strong> — 动态决定检索时机和推理深度</li>
+</ol>
+<p>最新 <strong>"Deep Research"</strong> 产品（OpenAI Deep Research、Gemini Deep Research、Perplexity Deep Research）正是这一范式从学术走向工业的标志性落地。</p>
+<hr />
+<h2 id="3">3. 批判性分析</h2>
+<h3 id="_4">优点</h3>
+<p><strong>① 分类框架清晰有力。</strong> 三个阶段的划分（Reasoning→RAG / RAG→Reasoning / RAG⇔Reasoning）虽然简单，但抓住了这个领域从松耦合到紧耦合的本质演化。这个框架比之前仅按 RAG 流程（检索/融合/生成）或推理类型（CoT/ToT/MCTS）的分类更统摄性，能让读者快速定位一个方法在"协同坐标系"中的位置。</p>
+<p><strong>② 覆盖广且有重点。</strong> 综述了 200+ 论文，但核心骨架不散——围绕"交互迭代"这个关键词组织，没有沦为论文罗列。图 2 的 taxonomy 地图质量很高，把复杂的方法论关系可视化了。附录中的方法列表也是一个实用的快速参考。</p>
+<p><strong>③ 对"Deep Research"产品的定位准确。</strong> 把工业界的系统性产品纳入学术综述，作为一个自然的演化结果来看待，而不是单独吹捧。这种连接学术与工业界的视角在现有 RAG 综述中比较少见。</p>
+<p><strong>④ Limitations 章节坦诚。</strong> 直接承认"广度优先于深度"、"分类框架抽象掉了各方法的具体 trade-off"，这种自我反思在综述中值得肯定。</p>
+<h3 id="_5">不足</h3>
+<p><strong>① 对检索方法的覆盖偏浅。</strong> 作者自己也承认了这一点——对稀疏 vs. 稠密检索、重排序策略、检索器训练等底层技术几乎没有展开。但这个问题比较关键：如果一个系统的检索质量本身就差（例如小数据场景下 embedding 召回率低），再好的推理-检索协同也难以补救。读者看完后对"怎么选检索器"没有获得任何指引。</p>
+<p><strong>② 缺少定量对比。</strong> 综述中虽然有 benchmark 列表（Table 1），但<strong>没有一张表格对比各方法在相同 benchmark 上的实际性能</strong>。200 篇论文、分了三层，但读者不知道 IRCoT vs. RATT vs. ToG 在 HotpotQA 上分别差多少分。这种缺失让综述更像"参考手册"而非"战略地图"。</p>
+<p><strong>③ "Agentic"的定义边界模糊。</strong> 文中频繁使用"agentic"一词，但 §5.1 的推理工作流部分，有些方法（如 IRCoT、CoV-RAG）更像是结构化推理流程而非真正的"自主智能体"。把 ReAct（显式 Action Token，可以自主决定何时搜索、搜什么、是否继续）和 IRCoT（只是按固定流程在步骤间做检索）都归入"协同框架"，但二者的自主性和灵活性差异很大，混在一起讨论容易让读者低估"真正的 agentic 系统还有多远"。</p>
+<p><strong>④ 人类-AI 协作方向论述空洞。</strong> §7.3 提到 human-in-the-loop 是"essential"，但只泛泛说了"建模用户意图"和"构建交互界面"，没有给出任何具体设计思路。在 Deep Research 产品已经上线的当下，"人在回路中"到底该以什么粒度介入——纠正检索方向？调节推理深度？审稿最终输出？——这些实操问题完全没有被触及。</p>
+<h3 id="_6">争议点</h3>
+<p><strong>"协同融合（§5）是否真的优于分段拼接（§3+§4）？"</strong> 这是一个没有被严格验证的隐含假设。作者似乎默认"迭代互促 &gt; 单向增强"，但从工程实践角度看，分段拼接的 pipeline 更可控、更可调试，而端到端协同系统引入了额外的复杂性和不确定性（什么时候该停止迭代？如何防止检索跑偏？）。在没有严格消融实验和成本分析的情况下，这个假设需要慎重对待。可能在某些场景下，一个好的单向增强方案加上精心设计的检索策略，效果不输（甚至稳定性超过）复杂的协同系统。</p>
+<h3 id="_7">与自己研究的关联</h3>
+<p>我目前在做知识蒸馏工作，而这篇综述中提到的<strong>推理效率</strong>方向（§7.1）给出了一个有意思的交叉点：thought distillation + 小模型上的 RAG-Reasoning。如果能让一个小 student 模型在推理过程中高效调用检索，同时保持较强的逻辑链能力，这可能比纯端到端蒸馏更实用——因为小模型的参数量有限，无法在参数中存储足够知识，RAG 正好补这一块。</p>
+<p>另外，我注意到综述中提到的大多数方法都假设有<strong>充足的计算资源</strong>（多轮检索+多步推理，单个查询 &gt;10 分钟）。在 8GB 显存的消费级显卡上实现轻量级 RAG-Reasoning，目前几乎没有工作覆盖——这可能是一个值得切入的空白。</p>
+<hr />
+<h2 id="4">4. 个人思考与延伸</h2>
+<h3 id="_8">对这个领域的新认识</h3>
+<p>读完这篇综述，我最大的收获是看清了 RAG 和推理之间的<strong>双向债务</strong>关系：检索错了，后续推理就白做；推理浅了，检索目标就偏了。这不是一个"先有鸡还是先有蛋"的问题，而是一个需要同时解决的耦合问题。</p>
+<p>§5 介绍的协同方法——尤其是 <strong>基于 RL 的单智能体方法</strong>（Search-R1、DeepResearche）——在思路上是对的：它们让模型自己学习"何时该搜"、"该搜什么"、"何时该停"，而不是靠人工预设规则。这种端到端的学习方式可能比手工设计的 pipeline 有更好的泛化能力，但也带来了更高的训练成本和更不可预测的运行行为。</p>
+<h3 id="_9">如果让我做下一步研究</h3>
+<p>我会选三个方向：</p>
+<ol>
+<li><strong>轻量级 RAG-Reasoning 蒸馏。</strong> 把 Search-R1 / DeepResearche 这类大模型的检索-推理协同能力蒸馏到小模型，同时用检索剪枝和推理长度控制来降低推理成本。具体来说，可以设计一个 teacher-student 框架，让 student 学到 teacher 的"检索时机决策"而不仅仅是"答案"——前者可能是更有迁移价值的知识。</li>
+<li><strong>检索质量的自感知机制。</strong> 现有方法基本假设检索器返回的内容"足够好"，但现实场景中检索结果常常是噪声。能否让模型在推理过程中<strong>量化每个检索片段的置信度</strong>，并据此动态调整推理深度（低置信度→多来源交叉验证，高置信度→快速推理）？这种"知道自己在多大程度上可以依赖检索结果"的能力，可能比单纯提高召回率更实用。</li>
+<li><strong>狭义领域的 Agentic RAG。</strong> 综述主要集中在开放域 QA 和数学/代码等通用任务上，但医疗诊断、法律判例检索、学术文献综述等垂直场景对"检索→推理→再检索"的迭代需求可能更强，而且领域知识图谱可以作为天然的推理约束。在这些场景做落地实验，可能比在通用 benchmark 上刷分更有实际价值。</li>
+</ol>
+<h3 id="_10">方法迁移的思考</h3>
+<p>§5.1 中的<strong>树式搜索（MCTS-RAG）</strong> 和图式推理（ToG）的方法论可以迁移到<strong>对话系统</strong>中：不把每轮对话看作一个独立的 QA 回合，而是把整个对话历史看作图上的节点，让 agent 在这个对话图上"步行"以决定下一轮需要检索什么信息。这个思路在需要多轮追问的客服场景中可能特别有效——例如帮用户诊断问题时，agent 需要主动检索相关产品文档，然后根据用户的新反馈决定要不要搜更多。</p>
+<hr />
+<h2 id="5">5. 总结</h2>
+<p>这篇综述以<strong>"检索与推理的协同演化"</strong>为主线，系统梳理了从单向增强到深度协同的完整技术路线，分类框架清晰、覆盖全面，对 RAG 领域的研究者是一份高质量的参考手册。它的主要价值在于打破了 RAG 和推理两个子领域各自为战的思维定式，提出了一个统摄性视角，并指明了 <strong>"Agentic RAG + Deep Reasoning"</strong> 的未来方向。但缺少定量对比和对底层检索技术的深入讨论，是它的两个明显短板。</p>
+<p>对于正在做知识蒸馏和模型轻量化工作的我来说，这篇综述最大的启发是：<strong>下一个值得攻克的问题不是"更大更强的检索"或"更深更长的推理"，而是怎么能让一个轻量模型学会"什么时候该去查、该查什么、查完之后该怎么想"这一整套闭环能力。</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
